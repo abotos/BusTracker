@@ -11,29 +11,8 @@
 
 package org.cluj.bus.pojo;
 
-public class TripStatus
+public enum Status
 {
-    private String busId;
-
-    private Status status;
-
-    public String getBusId()
-    {
-        return busId;
-    }
-
-    public void setBusId(String busId)
-    {
-        this.busId = busId;
-    }
-
-    public Status getStatus()
-    {
-        return status;
-    }
-
-    public void setStatus(Status status)
-    {
-        this.status = status;
-    }
+    STARTED,
+    ENDED
 }

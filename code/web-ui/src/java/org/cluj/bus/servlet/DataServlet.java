@@ -22,16 +22,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class DataServlet extends HttpServlet
 {
-
-    private static final String MIME_ENCODING = "UTF-8";
-
-    private static final String RESPONSE_CONTENT_TYPE_ENCODING = "text/plain;charset=" + MIME_ENCODING;
 
     private static final String STATION_ID = "stationId";
 
@@ -40,12 +35,7 @@ public class DataServlet extends HttpServlet
     {
         String stationId = httpServletRequest.getParameter(STATION_ID);
 
-        httpServletResponse.setContentType(RESPONSE_CONTENT_TYPE_ENCODING);
-        httpServletResponse.setCharacterEncoding(MIME_ENCODING);
-
-        PrintWriter writer = httpServletResponse.getWriter();
-        writer.write(getResponseString(stationId));
-        writer.flush();
+        ServletUtils.sendResponse(httpServletResponse, getResponseString(stationId));
     }
 
     private String getResponseString(String stationId)

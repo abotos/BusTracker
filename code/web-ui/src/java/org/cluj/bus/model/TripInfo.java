@@ -9,13 +9,13 @@
  * *************************************************************************
  */
 
-package org.cluj.bus.pojo;
+package org.cluj.bus.model;
 
-public class TripStatus
+public class TripInfo
 {
     private String busId;
 
-    private Status status;
+    private String tripId;
 
     public String getBusId()
     {
@@ -27,13 +27,13 @@ public class TripStatus
         this.busId = busId;
     }
 
-    public Status getStatus()
+    public String getTripId()
     {
-        return status;
+        return tripId;
     }
 
-    public void setStatus(Status status)
+    public void setTripId(String tripId)
     {
-        this.status = status;
+        this.tripId = tripId;
     }
 }
