@@ -33,6 +33,7 @@ public class StationInfoServlet extends HttpServlet
 
     private String getResponseString(String stationId)
     {
+
         StationInfo stationInfo = new StationInfo();
 
         stationInfo.setStationId(stationId);

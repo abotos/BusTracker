@@ -16,4 +16,6 @@ import java.io.Serializable;
 public interface IReadService
 {
     Object load(Class clazz, Serializable id);
+
+    Object load(Class clazz, String propertyName, Object value);
 }
