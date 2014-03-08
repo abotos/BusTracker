@@ -32,11 +32,11 @@ public class BusLocationUpdate
     @JoinColumn(name = "TRIP_ID")
     private Trip trip;
 
-    @Column(name = "COORDINATE_X", nullable = false)
-    private Double coordinateX;
+    @Column(name = "LATITUDE", nullable = false)
+    private Double latitude;
 
-    @Column(name = "COORDINATE_Y", nullable = false)
-    private Double coordinateY;
+    @Column(name = "LONGITUDE", nullable = false)
+    private Double longitude;
 
     public Long getId()
     {
@@ -68,23 +68,23 @@ public class BusLocationUpdate
         this.trip = trip;
     }
 
-    public Double getCoordinateX()
+    public Double getLatitude()
     {
-        return coordinateX;
+        return latitude;
     }
 
-    public void setCoordinateX(Double coordinateX)
+    public void setLatitude(Double latitude)
     {
-        this.coordinateX = coordinateX;
+        this.latitude = latitude;
     }
 
-    public Double getCoordinateY()
+    public Double getLongitude()
     {
-        return coordinateY;
+        return longitude;
     }
 
-    public void setCoordinateY(Double coordinateY)
+    public void setLongitude(Double longitude)
     {
-        this.coordinateY = coordinateY;
+        this.longitude = longitude;
     }
 }

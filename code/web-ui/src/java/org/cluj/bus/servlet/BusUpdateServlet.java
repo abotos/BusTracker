@@ -45,14 +45,14 @@ public class BusUpdateServlet extends HttpServlet
         trip.setTripId(busLocation.getTripId());
         final BusLocationUpdate busLocationUpdate = new BusLocationUpdate();
         busLocationUpdate.setTrip(trip);
-        final double coordinateX = coordinate.getX();
-        busLocationUpdate.setCoordinateX(coordinateX);
-        final double coordinateY = coordinate.getY();
-        busLocationUpdate.setCoordinateY(coordinateY);
+        final double latitude = coordinate.getLatitude();
+        busLocationUpdate.setLatitude(latitude);
+        final double longitude = coordinate.getLongitude();
+        busLocationUpdate.setLongitude(longitude);
 
         HibernateServiceProvider.getINSTANCE().getWriteService().update(busLocationUpdate);
 
-        LOGGER.info(String.format(BUS_LOCATION_MSG, busLocation.getBusId(), coordinateX, coordinateY));
+        LOGGER.info(String.format(BUS_LOCATION_MSG, busLocation.getBusId(), latitude, longitude));
     }
 
     @Override

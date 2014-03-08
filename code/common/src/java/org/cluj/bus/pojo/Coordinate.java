@@ -13,37 +13,37 @@ package org.cluj.bus.pojo;
 
 public class Coordinate
 {
-    private double x;
+    private double latitude;
 
-    private double y;
+    private double longitude;
 
     public Coordinate()
     {
     }
 
-    public Coordinate(double x, double y)
+    public Coordinate(double latitude, double longitude)
     {
-        this.x = x;
-        this.y = y;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
-    public double getX()
+    public double getLatitude()
     {
-        return x;
+        return latitude;
     }
 
-    public void setX(double x)
+    public void setLatitude(double latitude)
     {
-        this.x = x;
+        this.latitude = latitude;
     }
 
-    public double getY()
+    public double getLongitude()
     {
-        return y;
+        return longitude;
     }
 
-    public void setY(double y)
+    public void setLongitude(double longitude)
     {
-        this.y = y;
+        this.longitude = longitude;
     }
 }

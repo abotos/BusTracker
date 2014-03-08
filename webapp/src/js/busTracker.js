@@ -38,7 +38,7 @@ function onMapInfoSuccess(data, status, request)
     globalData.stationInfo = stationInfo;
     var stationCoordinate = stationInfo.coordinate;
 
-    var stationLatLng = new google.maps.LatLng(stationCoordinate.y, stationCoordinate.x);
+    var stationLatLng = new google.maps.LatLng(stationCoordinate.latitude, stationCoordinate.longitude);
     var mapOptions = {
         center : stationLatLng,
         zoom : 18
