@@ -32,17 +32,20 @@ import java.util.List;
 public class BotThread extends Thread
 {
     private final String busId;
-    
     private final Collection<WayPointInfo> wayPointInfoCollection;
 
     private static final Logger LOGGER = Logger.getLogger(BotThread.class);
 
-    // TODO unhardcode this
+    // TODO unhardcode these
     private static final String BUS_UPDATE_SERVLET_URL = "http://localhost:8080/bustracker/busUpdate";
 
     private static final String TRIP_STATUS_SERVLET_URL = "http://localhost:8080/bustracker/tripStatus";
 
-    private static final int SLEEP_INTERVAL = 5000;
+    public static final int SIGMA = 1000;
+
+    public static final int MU = 10000;
+
+    private static final int END_OF_TRIP_WAIT_INTERVAL = 10000;
 
     private boolean running = true;
 
@@ -71,15 +74,8 @@ public class BotThread extends Thread
 
                 endTrip(tripId);
 
-
-                // TODO do something
-                LOGGER.info("BotThread is doing stuff");
-
-                BusLocation location = getNextLocation();
-
-                sendLocationUpdate(location);
-
-                Thread.sleep(SLEEP_INTERVAL);
+                LOGGER.info("Trip ended. Waiting in the depo...");
+                Thread.sleep(END_OF_TRIP_WAIT_INTERVAL);
             }
             catch (InterruptedException e)
             {
@@ -127,14 +123,14 @@ public class BotThread extends Thread
 
     public void runTrip(String tripId) throws IOException, InterruptedException
     {
-        for(WayPointInfo wayPointInfo : this.wayPointInfoCollection)
+        for (WayPointInfo wayPointInfo : this.wayPointInfoCollection)
         {
             final BusLocation busLocation = new BusLocation();
             busLocation.setBusId(this.busId);
             busLocation.setTripId(tripId);
             busLocation.setCoordinate(wayPointInfo.getCoordinate());
             sendLocationUpdate(busLocation);
-            Thread.sleep(5000);
+            Thread.sleep(getStandardGaussian(SIGMA, MU));
         }
     }
 
@@ -152,17 +148,20 @@ public class BotThread extends Thread
     private void sendLocationUpdate(BusLocation location) throws IOException
     {
         final CloseableHttpResponse response = getCloseableHttpResponse(BUS_UPDATE_SERVLET_URL, Constants.LOCATION_PARAMETER_KEY, location);
-
-        LOGGER.info("Got response [statusCode=" + response.getStatusLine().getStatusCode() + "]");
     }
 
-    private BusLocation getNextLocation()
+    private long getStandardGaussian(long sigma, long mu)
     {
-        BusLocation location = new BusLocation();
+        double r, x, y;
+        do
+        {
+            x = 2.0 * Math.random() - 1.0;
+            y = 2.0 * Math.random() - 1.0;
+            r = x * x + y * y;
+        } while (r > 1 || r == 0);
 
-        location.setBusId("MyBus");
-        location.setCoordinate(new Coordinate(123.5, 22.6));
+        double z = x * Math.sqrt(-2.0 * Math.log(r) / r);
 
-        return location;
+        return (long) (z * sigma + mu);
     }
 }

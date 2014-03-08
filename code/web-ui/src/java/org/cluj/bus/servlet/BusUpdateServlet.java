@@ -16,11 +16,8 @@ import org.cluj.bus.BusLocationUpdate;
 import org.cluj.bus.Trip;
 import org.cluj.bus.constants.Constants;
 import org.cluj.bus.db.HibernateServiceProvider;
-import org.cluj.bus.db.HibernateUtil;
 import org.cluj.bus.pojo.BusLocation;
 import org.cluj.bus.pojo.Coordinate;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -37,9 +34,9 @@ public class BusUpdateServlet extends HttpServlet
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException
     {
-        String locationJson = httpServletRequest.getParameter(Constants.LOCATION_PARAMETER_KEY);
+        final String locationJson = httpServletRequest.getParameter(Constants.LOCATION_PARAMETER_KEY);
 
-        BusLocation busLocation = new Gson().fromJson(locationJson, BusLocation.class);
+        final BusLocation busLocation = new Gson().fromJson(locationJson, BusLocation.class);
 
         final Coordinate coordinate = busLocation.getCoordinate();
 
@@ -53,10 +50,9 @@ public class BusUpdateServlet extends HttpServlet
         final double longitude = coordinate.getLongitude();
         busLocationUpdate.setLongitude(longitude);
 
-        final Session session = HibernateUtil.openSession();
-        final Object loadedTrip = session.createCriteria(Trip.class).add(Restrictions.eq("tripId", busLocation.getTripId())).list().get(0);
+        final Trip loadedTrip = (Trip) HibernateServiceProvider.getINSTANCE().getReadService().load(Trip.class, "tripId", busLocation.getTripId());
 
-        busLocationUpdate.setTrip((Trip) loadedTrip);
+        busLocationUpdate.setTrip(loadedTrip);
 
         HibernateServiceProvider.getINSTANCE().getWriteService().save(busLocationUpdate);
 
