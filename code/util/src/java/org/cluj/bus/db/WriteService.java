@@ -27,4 +27,14 @@ public class WriteService implements IWriteService
         session.close();
         return savedObject;
     }
+
+    @Override
+    public void update(Object object)
+    {
+        final Session session = HibernateUtil.openSession();
+        final Transaction transaction = session.beginTransaction();
+        session.update(object);
+        transaction.commit();
+        session.close();
+    }
 }
