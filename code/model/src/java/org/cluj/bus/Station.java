@@ -8,29 +8,27 @@
  * and will be prosecuted to the maximum extent possible under the law.
  * *************************************************************************
  */
+
 package org.cluj.bus;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @Entity
-@Table(name = "BUS_LOCATION_UPDATE")
+@Table(name = "STATION")
 @AttributeOverride(name = "id", column = @Column(name = "ID", nullable = false))
-@SequenceGenerator(name = "SEQ", sequenceName = "S_BUS_LOCATION_UPDATE")
-public class BusLocationUpdate
+@SequenceGenerator(name = "SEQ", sequenceName = "S_STATION")
+public class Station
 {
-
     @Id()
     @GeneratedValue(generator = "SEQ")
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @Column(name = "LAST_UPDATE", insertable = false, updatable = false)
-    private Timestamp lastUpdate;
+    @Column(name = "BUSINESS_ID", nullable = false)
+    private String businessId;
 
-    @ManyToOne(targetEntity = Trip.class)
-    @JoinColumn(name = "TRIP_ID")
-    private Trip trip;
+    @Column(name = "NAME", nullable = false)
+    private String name;
 
     @Column(name = "COORDINATE_X", nullable = false)
     private Double coordinateX;
@@ -48,24 +46,24 @@ public class BusLocationUpdate
         this.id = id;
     }
 
-    public Timestamp getLastUpdate()
+    public String getBusinessId()
     {
-        return lastUpdate;
+        return businessId;
     }
 
-    public void setLastUpdate(Timestamp lastUpdate)
+    public void setBusinessId(String businessId)
     {
-        this.lastUpdate = lastUpdate;
+        this.businessId = businessId;
     }
 
-    public Trip getTrip()
+    public String getName()
     {
-        return trip;
+        return name;
     }
 
-    public void setTrip(Trip trip)
+    public void setName(String name)
     {
-        this.trip = trip;
+        this.name = name;
     }
 
     public Double getCoordinateX()

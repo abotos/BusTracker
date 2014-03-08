@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <project name="Defs">
     <property name="db.system.user" value="system"/>
-    <property name="db.system.password" value="system"/>
+    <property name="db.system.password" value="oracle"/>
 
     <property name="db.user" value="BUS_TRACKER"/>
     <property name="db.password" value="welcome"/>
 
     <property name="db.host" value="localhost"/>
-    <property name="db.service" value="oracle"/>
+    <property name="db.service" value="ORACLE"/>
     <property name="db.port" value="1521"/>
 
     <property name="db.driver_class" value="oracle.jdbc.driver.OracleDriver"/>
