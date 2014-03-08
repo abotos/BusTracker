@@ -19,7 +19,6 @@ import java.sql.Timestamp;
 @SequenceGenerator(name = "SEQ", sequenceName = "S_BUS_LOCATION_UPDATE")
 public class BusLocationUpdate
 {
-
     @Id()
     @GeneratedValue(generator = "SEQ")
     @Column(name = "ID", nullable = false)
@@ -28,8 +27,6 @@ public class BusLocationUpdate
     @Column(name = "LAST_UPDATE", insertable = false, updatable = false)
     private Timestamp lastUpdate;
 
-/*    @ManyToOne(targetEntity = Trip.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "ID", insertable = false, updatable = false)*/
     @OneToOne
     @JoinColumn(name = "TRIP_ID")
     private Trip trip;

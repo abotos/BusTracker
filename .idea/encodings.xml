@@ -9,7 +9,6 @@
     <file url="file://$PROJECT_DIR$/resources/sql/dropSchema.sql" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/sql/dropUser.sql" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/sql/populate.sql" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/resources/sql/populateTestData.sql" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webapp/WEB-INF/web.xml" charset="UTF-8" />
   </component>
 </project>
