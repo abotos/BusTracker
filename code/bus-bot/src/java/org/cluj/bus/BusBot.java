@@ -10,19 +10,50 @@
  */
 package org.cluj.bus;
 
+import org.apache.commons.io.IOUtils;
 import org.cluj.bus.logging.LogInitializer;
+import org.cluj.bus.pojo.Coordinate;
+import org.cluj.bus.pojo.WayPointInfo;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * Main class of the Bus-bot
  */
 public class BusBot
 {
-
-    public static void main(String[] args) throws InterruptedException
+    // the first parameter has to be the bus id
+    // the second parameter is a file with the coordinate points
+    public static void main(String[] args) throws InterruptedException, IOException
     {
         LogInitializer.configureLOG4J();
 
-        BusBotRunner botRunner = new BusBotRunner();
+
+        BusBotRunner botRunner = new BusBotRunner(args[0], getWayPointInfoList(args[1]));
         botRunner.runBot();
+    }
+
+    private static Collection<WayPointInfo> getWayPointInfoList(String fileName) throws IOException
+    {
+        final List<String> strings = IOUtils.readLines(new FileReader(fileName));
+        final Collection<WayPointInfo> wayPointInfos = new ArrayList<>(strings.size());
+        for(String line : strings)
+        {
+            final String latitudeString = new StringTokenizer(line, ";").nextToken();
+            final String longitudeString = new StringTokenizer(line, ";").nextToken();
+            final String isStationString = new StringTokenizer(line, ";").nextToken();
+            final Double latitude = Double.parseDouble(latitudeString);
+            final Double longitude = Double.parseDouble(longitudeString);
+            final Boolean isStation = Boolean.parseBoolean(isStationString);
+            final Coordinate coordinate = new Coordinate(latitude, longitude);
+            final WayPointInfo wayPointInfo = new WayPointInfo(coordinate, isStation);
+            wayPointInfos.add(wayPointInfo);
+        }
+        return wayPointInfos;
     }
 }

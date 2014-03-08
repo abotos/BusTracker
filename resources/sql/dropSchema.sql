@@ -21,10 +21,7 @@ begin execute immediate 'ALTER TABLE BUS_LOCATION_UPDATE DROP CONSTRAINT TRIP_ID
 begin execute immediate 'ALTER TABLE TRIP DROP CONSTRAINT TRIP_PK'; exception when others then if sqlcode !=-2443 and sqlcode != -942 then raise; end if; end;
 /
 
-begin execute immediate 'ALTER TABLE TRIP DROP CONSTRAINT UNIQUE_BUS_ID'; exception when others then if sqlcode !=-2443 and sqlcode != -942 then raise; end if; end;
-/
-
-begin execute immediate 'ALTER TABLE TRIP DROP CONSTRAINT UNIQUE_TRIP_ID'; exception when others then if sqlcode !=-2443 and sqlcode != -942 then raise; end if; end;
+begin execute immediate 'ALTER TABLE TRIP DROP CONSTRAINT UNIQUE_TRIP_BUS_TRIP_ID'; exception when others then if sqlcode !=-2443 and sqlcode != -942 then raise; end if; end;
 /
 
 begin execute immediate 'ALTER TABLE STATION DROP CONSTRAINT STATION_PK'; exception when others then if sqlcode !=-2443 and sqlcode != -942 then raise; end if; end;
@@ -38,15 +35,21 @@ begin execute immediate 'ALTER TABLE STATION DROP CONSTRAINT UNIQUE_NAME'; excep
 --##################################################################### DROP_TABLES ################################################
 
 begin execute immediate 'DROP TABLE BUS'; exception when others then if sqlcode != -942 then raise; end if; end;
+/
 begin execute immediate 'DROP TABLE BUS_LOCATION_UPDATE'; exception when others then if sqlcode != -942 then raise; end if; end;
+/
 begin execute immediate 'DROP TABLE TRIP'; exception when others then if sqlcode != -942 then raise; end if; end;
+/
 begin execute immediate 'DROP TABLE STATION'; exception when others then if sqlcode != -942 then raise; end if; end;
 /
 
 --##################################################################### DROP_SEQUENCES ################################################
 
 begin execute immediate 'DROP SEQUENCE S_BUS'; exception when others then if sqlcode != -2289 then raise; end if; end;
+/
 begin execute immediate 'DROP SEQUENCE S_BUS_LOCATION_UPDATE'; exception when others then if sqlcode != -2289 then raise; end if; end;
+/
 begin execute immediate 'DROP SEQUENCE S_TRIP'; exception when others then if sqlcode != -2289 then raise; end if; end;
+/
 begin execute immediate 'DROP SEQUENCE S_STATION'; exception when others then if sqlcode != -2289 then raise; end if; end;
 /

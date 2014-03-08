@@ -16,15 +16,16 @@ import org.hibernate.Transaction;
 
 import java.io.Serializable;
 
-public class WriteService implements IWriteService
+public class ReadService implements IReadService
 {
-    public Serializable save(Object object)
+    @Override
+    public Object load(Class clazz, Serializable id)
     {
         final Session session = HibernateUtil.openSession();
         final Transaction transaction = session.beginTransaction();
-        final Serializable savedObject = session.save(object);
+        final Object object = session.load(clazz, id);
         transaction.commit();
         session.close();
-        return savedObject;
+        return object;
     }
 }

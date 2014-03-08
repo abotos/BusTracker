@@ -9,28 +9,37 @@
  * *************************************************************************
  */
 
-package org.cluj.bus.db;
+package org.cluj.bus.pojo;
 
-public class HibernateServiceProvider
+public class WayPointInfo
 {
-    private static HibernateServiceProvider INSTANCE = new HibernateServiceProvider();
+    private Coordinate coordinate;
 
-    private HibernateServiceProvider()
+    private boolean isStation;
+
+    public WayPointInfo(Coordinate coordinate, boolean isStation)
     {
+        this.coordinate = coordinate;
+        this.isStation = isStation;
     }
 
-    public static HibernateServiceProvider getINSTANCE()
+    public Coordinate getCoordinate()
     {
-        return INSTANCE;
+        return coordinate;
     }
 
-    public IWriteService getWriteService()
+    public void setCoordinate(Coordinate coordinate)
     {
-        return new WriteService();
+        this.coordinate = coordinate;
     }
 
-    public IReadService getReadService()
+    public boolean isStation()
     {
-        return new ReadService();
+        return isStation;
+    }
+
+    public void setStation(boolean isStation)
+    {
+        this.isStation = isStation;
     }
 }

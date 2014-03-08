@@ -16,8 +16,11 @@ import org.cluj.bus.BusLocationUpdate;
 import org.cluj.bus.Trip;
 import org.cluj.bus.constants.Constants;
 import org.cluj.bus.db.HibernateServiceProvider;
+import org.cluj.bus.db.HibernateUtil;
 import org.cluj.bus.pojo.BusLocation;
 import org.cluj.bus.pojo.Coordinate;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -50,7 +53,12 @@ public class BusUpdateServlet extends HttpServlet
         final double longitude = coordinate.getLongitude();
         busLocationUpdate.setLongitude(longitude);
 
-        HibernateServiceProvider.getINSTANCE().getWriteService().update(busLocationUpdate);
+        final Session session = HibernateUtil.openSession();
+        final Object loadedTrip = session.createCriteria(Trip.class).add(Restrictions.eq("tripId", busLocation.getTripId())).list().get(0);
+
+        busLocationUpdate.setTrip((Trip) loadedTrip);
+
+        HibernateServiceProvider.getINSTANCE().getWriteService().save(busLocationUpdate);
 
         LOGGER.info(String.format(BUS_LOCATION_MSG, busLocation.getBusId(), latitude, longitude));
     }
