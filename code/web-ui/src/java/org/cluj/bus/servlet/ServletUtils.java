@@ -18,6 +18,9 @@ import java.io.PrintWriter;
 
 public class ServletUtils
 {
+
+    static final String STATION_ID = "stationId";
+
     static final String MIME_ENCODING = "UTF-8";
     static final String RESPONSE_CONTENT_TYPE_ENCODING = "text/plain;charset=" + MIME_ENCODING;
 

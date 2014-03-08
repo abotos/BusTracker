@@ -30,21 +30,27 @@
     </servlet>
 
     <servlet>
-        <servlet-name>BusUpdate</servlet-name>
-        <servlet-class>org.cluj.bus.servlet.BusUpdateServlet</servlet-class>
+        <servlet-name>TripStatus</servlet-name>
+        <servlet-class>org.cluj.bus.servlet.TripStatusServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet>
-        <servlet-name>Data</servlet-name>
-        <servlet-class>org.cluj.bus.servlet.DataServlet</servlet-class>
+        <servlet-name>BusUpdate</servlet-name>
+        <servlet-class>org.cluj.bus.servlet.BusUpdateServlet</servlet-class>
         <load-on-startup>2</load-on-startup>
     </servlet>
 
     <servlet>
-        <servlet-name>TripStatus</servlet-name>
-        <servlet-class>org.cluj.bus.servlet.TripStatusServlet</servlet-class>
+        <servlet-name>StationInfo</servlet-name>
+        <servlet-class>org.cluj.bus.servlet.StationInfoServlet</servlet-class>
         <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>BusInfo</servlet-name>
+        <servlet-class>org.cluj.bus.servlet.BusInfoServlet</servlet-class>
+        <load-on-startup>3</load-on-startup>
     </servlet>
 
     <servlet-mapping>
@@ -53,18 +59,23 @@
     </servlet-mapping>
 
     <servlet-mapping>
+        <servlet-name>TripStatus</servlet-name>
+        <url-pattern>/tripStatus/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
         <servlet-name>BusUpdate</servlet-name>
         <url-pattern>/busUpdate/*</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>Data</servlet-name>
-        <url-pattern>/data/*</url-pattern>
+        <servlet-name>StationInfo</servlet-name>
+        <url-pattern>/stationInfo/*</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>TripStatus</servlet-name>
-        <url-pattern>/tripStatus/*</url-pattern>
+        <servlet-name>BusInfo</servlet-name>
+        <url-pattern>/busInfo/*</url-pattern>
     </servlet-mapping>
 
     <!--location to prevent users from listing some resources-->

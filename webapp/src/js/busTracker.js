@@ -19,11 +19,11 @@ function onPageReady()
     {
         globalData.stationId = stationId;
 
-        $.ajax('data', {
+        $.ajax('stationInfo', {
             type : 'POST',
             dataType : 'json',
-            data : {action : 'getMapInfo', stationId : stationId},
-            success : onMapInfoSuccess
+            data : {stationId : stationId},
+            success : onStationInfoSuccess
         })
     }
     else
@@ -32,11 +32,10 @@ function onPageReady()
     }
 }
 
-function onMapInfoSuccess(data, status, request)
+function onStationInfoSuccess(data, status, request)
 {
-    var stationInfo = data.stationInfo;
-    globalData.stationInfo = stationInfo;
-    var stationCoordinate = stationInfo.coordinate;
+    globalData.stationInfo = data;
+    var stationCoordinate = data.coordinate;
 
     var stationLatLng = new google.maps.LatLng(stationCoordinate.latitude, stationCoordinate.longitude);
     var mapOptions = {
@@ -44,10 +43,11 @@ function onMapInfoSuccess(data, status, request)
         zoom : 18
     };
     var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+    globalData.map = map;
 
     var marker = new google.maps.Marker({
         position : stationLatLng,
-        title : stationInfo.stationId
+        title : data.stationId
     });
 
     globalData.stationMarker = marker;
@@ -55,7 +55,67 @@ function onMapInfoSuccess(data, status, request)
     // To add the marker to the map, call setMap();
     marker.setMap(map);
 
-    // TODO start refreshing the map
+    google.maps.event.addListener(map, 'tilesloaded', function(){
+        startBusInfoRefresh();
+    });
+}
+
+function startBusInfoRefresh()
+{
+    updateBusInfo();
+    globalData.refreshTask = setInterval(updateBusInfo, 5000);
+}
+
+function updateBusInfo()
+{
+    var mapBounds = globalData.map.getBounds();
+
+    var bounds = {
+        latNE : mapBounds.getNorthEast().lat(),
+        lngNE : mapBounds.getNorthEast().lng(),
+        latSW : mapBounds.getSouthWest().lat(),
+        lngSW : mapBounds.getSouthWest().lng()
+    };
+
+    $.ajax('busInfo', {
+        type : 'POST',
+        dataType : 'json',
+        data : {stationId : globalData.stationId, bounds : bounds},
+        success : onBusInfoSuccess
+    })
+}
+
+function onBusInfoSuccess(data, status, request)
+{
+    if (globalData.currentMarkers)
+    {
+        $.each(globalData.currentMarkers, function(index, marker){
+            marker.setMap(null);
+        });
+
+        delete globalData.currentMarkers;
+    }
+
+    globalData.currentMarkers = [];
+
+    $.each(data, function(index, value){
+        // TODO do something with the bus id
+        var busId = value.busId;
+
+        var individualBusInfos = value.individualBusInfos;
+        $.each(individualBusInfos, function(individualIndex, individualValue){
+            var individualLatLng = new google.maps.LatLng(individualValue.coordinate.latitude, individualValue.coordinate.longitude);
+
+            var individualMarker = new google.maps.Marker({
+                position : individualLatLng,
+                title : data.stationId
+            });
+
+            globalData.currentMarkers.push(individualMarker);
+
+            individualMarker.setMap(globalData.map);
+        });
+    });
 }
 
 // Read a page's GET URL variables and return them as an associative array.

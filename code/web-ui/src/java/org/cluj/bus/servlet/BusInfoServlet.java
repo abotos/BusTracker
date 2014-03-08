@@ -13,8 +13,6 @@ package org.cluj.bus.servlet;
 import com.google.gson.Gson;
 import org.cluj.bus.model.BusInfo;
 import org.cluj.bus.model.IndividualBusInfo;
-import org.cluj.bus.model.MapInfo;
-import org.cluj.bus.model.StationInfo;
 import org.cluj.bus.pojo.Coordinate;
 
 import javax.servlet.ServletException;
@@ -25,45 +23,33 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class DataServlet extends HttpServlet
+public class BusInfoServlet extends HttpServlet
 {
-
-    private static final String STATION_ID = "stationId";
 
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException
     {
-        String stationId = httpServletRequest.getParameter(STATION_ID);
+        String stationId = httpServletRequest.getParameter(ServletUtils.STATION_ID);
 
         ServletUtils.sendResponse(httpServletResponse, getResponseString(stationId));
     }
 
     private String getResponseString(String stationId)
     {
-        MapInfo mapInfo = new MapInfo();
-
-        StationInfo stationInfo = new StationInfo();
-
-        stationInfo.setStationId(stationId);
-        stationInfo.setCoordinate(new Coordinate(23.63, 46.7681));
-
-        mapInfo.setStationInfo(stationInfo);
-
+        // TODO get the buses based on stationId
         Collection<BusInfo> busInfos = new ArrayList<>();
         BusInfo busInfo1 = new BusInfo();
         busInfo1.setBusId("33_1");
         ArrayList<IndividualBusInfo> individualBusInfos = new ArrayList<>();
         IndividualBusInfo individualBusInfo1_1 = new IndividualBusInfo();
-        individualBusInfo1_1.setCoordinate(new Coordinate(45.5, 56.88));
+        individualBusInfo1_1.setCoordinate(new Coordinate(46.7681 + ((Math.random() - 0.5) * 0.0005), 23.6308 + ((Math.random() - 0.5) * 0.0005)));
         individualBusInfos.add(individualBusInfo1_1);
         IndividualBusInfo individualBusInfo1_2 = new IndividualBusInfo();
-        individualBusInfo1_2.setCoordinate(new Coordinate(46.5, 57.89));
+        individualBusInfo1_2.setCoordinate(new Coordinate(46.7681 + ((Math.random() - 0.5) * 0.0005), 23.6292 + ((Math.random() - 0.5) * 0.0005)));
         individualBusInfos.add(individualBusInfo1_2);
         busInfo1.setIndividualBusInfos(individualBusInfos);
         busInfos.add(busInfo1);
 
-        mapInfo.setBusInfos(busInfos);
-
-        return new Gson().toJson(mapInfo);
+        return new Gson().toJson(busInfos);
     }
 }
