@@ -45,18 +45,32 @@ public class BusInfoServlet extends HttpServlet
         // TODO get the buses based on stationId
         // and only the ones that are within the map bounds
         Collection<BusInfo> busInfos = new ArrayList<>();
-        BusInfo busInfo1 = new BusInfo();
-        busInfo1.setBusId("33_1");
-        ArrayList<IndividualBusInfo> individualBusInfos = new ArrayList<>();
-        IndividualBusInfo individualBusInfo1_1 = new IndividualBusInfo();
-        individualBusInfo1_1.setCoordinate(new Coordinate(46.7681 + ((Math.random() - 0.5) * 0.0005), 23.6308 + ((Math.random() - 0.5) * 0.0005)));
-        individualBusInfos.add(individualBusInfo1_1);
-        IndividualBusInfo individualBusInfo1_2 = new IndividualBusInfo();
-        individualBusInfo1_2.setCoordinate(new Coordinate(46.7681 + ((Math.random() - 0.5) * 0.0005), 23.6292 + ((Math.random() - 0.5) * 0.0005)));
-        individualBusInfos.add(individualBusInfo1_2);
-        busInfo1.setIndividualBusInfos(individualBusInfos);
-        busInfos.add(busInfo1);
+        busInfos.add(getBusInfo("33_1", "24", 2));
+        busInfos.add(getBusInfo("33_1", "7", 1));
 
         return new Gson().toJson(busInfos);
+    }
+
+    private BusInfo getBusInfo(String busId, String busDisplayImage, int noOfIndividualBusInfos)
+    {
+        BusInfo busInfo = new BusInfo();
+        busInfo.setBusId(busId);
+        busInfo.setBusDisplayImage(busDisplayImage);
+        ArrayList<IndividualBusInfo> individualBusInfos = new ArrayList<>();
+        for (int index = 0; index < noOfIndividualBusInfos; index++)
+        {
+            individualBusInfos.add(getIndividualBusInfo(index));
+        }
+        busInfo.setIndividualBusInfos(individualBusInfos);
+
+        return busInfo;
+    }
+
+    private IndividualBusInfo getIndividualBusInfo(int index)
+    {
+        IndividualBusInfo individualBusInfo = new IndividualBusInfo();
+        individualBusInfo.setCoordinate(new Coordinate(46.7681 + ((Math.random() - 0.5) * 0.0005), 23.628 + (index * 0.003) + ((Math.random() - 0.5) * 0.0005)));
+
+        return individualBusInfo;
     }
 }

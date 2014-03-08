@@ -104,6 +104,7 @@ function onBusInfoSuccess(data, status, request)
     $.each(data, function(index, value){
         // TODO do something with the bus id
         var busId = value.busId;
+        var busDisplayImage = 'images/' + value.busDisplayImage + '.png';
 
         var individualBusInfos = value.individualBusInfos;
         $.each(individualBusInfos, function(individualIndex, individualValue){
@@ -111,7 +112,8 @@ function onBusInfoSuccess(data, status, request)
 
             var individualMarker = new google.maps.Marker({
                 position : individualLatLng,
-                title : data.stationId
+                title : data.stationId,
+                icon : busDisplayImage
             });
 
             globalData.currentMarkers.push(individualMarker);
