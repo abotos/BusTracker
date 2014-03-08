@@ -21,6 +21,12 @@
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.cluj.bus</groupId>
+            <artifactId>common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.cluj.bus</groupId>
             <artifactId>util</artifactId>
