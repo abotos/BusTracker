@@ -9,7 +9,7 @@
  * *************************************************************************
  */
 
-package org.cluj.bus.model;
+package org.cluj.bus.pojo;
 
 public class TripInfo
 {

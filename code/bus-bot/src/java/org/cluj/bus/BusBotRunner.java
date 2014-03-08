@@ -11,18 +11,28 @@
 package org.cluj.bus;
 
 import org.apache.log4j.Logger;
+import org.cluj.bus.pojo.WayPointInfo;
 
 import java.io.IOException;
+import java.util.Collection;
 
 public class BusBotRunner
 {
-
     private static final Logger LOGGER = Logger.getLogger(BusBotRunner.class);
+
+    private final String busId;
+    private final Collection<WayPointInfo> coordinates;
+
+    public BusBotRunner(String busId, Collection<WayPointInfo> coordinates)
+    {
+        this.busId = busId;
+        this.coordinates = coordinates;
+    }
 
     public void runBot()
     {
         // TODO Log some stuff here
-        BotThread botThread = new BotThread();
+        BotThread botThread = new BotThread(busId, coordinates);
 
         botThread.start();
 

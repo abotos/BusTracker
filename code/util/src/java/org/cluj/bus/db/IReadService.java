@@ -11,20 +11,9 @@
 
 package org.cluj.bus.db;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import java.io.Serializable;
 
-public class WriteService implements IWriteService
+public interface IReadService
 {
-    public Serializable save(Object object)
-    {
-        final Session session = HibernateUtil.openSession();
-        final Transaction transaction = session.beginTransaction();
-        final Serializable savedObject = session.save(object);
-        transaction.commit();
-        session.close();
-        return savedObject;
-    }
+    Object load(Class clazz, Serializable id);
 }

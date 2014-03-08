@@ -16,8 +16,9 @@ import org.apache.log4j.Logger;
 import org.cluj.bus.Trip;
 import org.cluj.bus.constants.Constants;
 import org.cluj.bus.db.HibernateServiceProvider;
-import org.cluj.bus.model.TripInfo;
+import org.cluj.bus.db.IWriteService;
 import org.cluj.bus.pojo.Status;
+import org.cluj.bus.pojo.TripInfo;
 import org.cluj.bus.pojo.TripStatus;
 
 import javax.servlet.ServletException;
@@ -44,13 +45,16 @@ public class TripStatusServlet extends HttpServlet
             trip.setBusId(busId);
             final String tripId = UUID.randomUUID().toString();
             trip.setTripId(tripId);
-            HibernateServiceProvider.getINSTANCE().getWriteService().update(trip);
+            final IWriteService writeService = HibernateServiceProvider.getINSTANCE().getWriteService();
+            writeService.save(trip);
 
             ServletUtils.sendResponse(httpServletResponse, getResponseString(busId, tripId));
         }
         else if (Status.ENDED == tripStatus.getStatus())
         {
             //move trip to archive
+
+            ServletUtils.sendResponse(httpServletResponse, "OK");
         }
         else
         {

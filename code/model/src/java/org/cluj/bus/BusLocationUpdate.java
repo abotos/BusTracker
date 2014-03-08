@@ -28,7 +28,9 @@ public class BusLocationUpdate
     @Column(name = "LAST_UPDATE", insertable = false, updatable = false)
     private Timestamp lastUpdate;
 
-    @ManyToOne(targetEntity = Trip.class)
+/*    @ManyToOne(targetEntity = Trip.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID", insertable = false, updatable = false)*/
+    @OneToOne
     @JoinColumn(name = "TRIP_ID")
     private Trip trip;
 

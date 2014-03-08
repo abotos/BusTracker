@@ -11,7 +11,9 @@
 
 package org.cluj.bus.db;
 
+import java.io.Serializable;
+
 public interface IWriteService
 {
-    void update(Object object);
+    Serializable save(Object object);
 }
