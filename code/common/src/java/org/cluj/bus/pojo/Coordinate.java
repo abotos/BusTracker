@@ -8,34 +8,32 @@
  * and will be prosecuted to the maximum extent possible under the law.
  * *************************************************************************
  */
+
 package org.cluj.bus.pojo;
 
-/**
- * POJO class that represents the location of a bus
- */
-public class BusLocation
+public class Coordinate
 {
-    private String busId;
+    private double x;
 
-    private Coordinate coordinate;
+    private double y;
 
-    public String getBusId()
+    public double getX()
     {
-        return busId;
+        return x;
     }
 
-    public void setBusId(String busId)
+    public void setX(double x)
     {
-        this.busId = busId;
+        this.x = x;
     }
 
-    public Coordinate getCoordinate()
+    public double getY()
     {
-        return coordinate;
+        return y;
     }
 
-    public void setCoordinate(Coordinate coordinate)
+    public void setY(double y)
     {
-        this.coordinate = coordinate;
+        this.y = y;
     }
 }

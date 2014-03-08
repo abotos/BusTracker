@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 import org.cluj.bus.constants.Constants;
 import org.cluj.bus.pojo.BusLocation;
+import org.cluj.bus.pojo.Coordinate;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -34,7 +35,8 @@ public class BusUpdateServlet extends HttpServlet
 
         BusLocation busLocation = new Gson().fromJson(locationJson, BusLocation.class);
 
-        LOGGER.info(String.format(BUS_LOCATION_MSG, busLocation.getBusId(), busLocation.getxLat(), busLocation.getyLat()));
+        final Coordinate busLocationCoordinate = busLocation.getCoordinate();
+        LOGGER.info(String.format(BUS_LOCATION_MSG, busLocation.getBusId(), busLocationCoordinate.getX(), busLocationCoordinate.getX()));
     }
 
     @Override
