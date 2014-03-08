@@ -11,10 +11,22 @@
 package org.cluj.bus.servlet;
 
 import com.google.gson.Gson;
+import org.cluj.bus.Bus;
+import org.cluj.bus.BusLocationUpdate;
+import org.cluj.bus.StationBus;
+import org.cluj.bus.Trip;
+import org.cluj.bus.db.HibernateServiceProvider;
+import org.cluj.bus.db.HibernateUtil;
 import org.cluj.bus.model.BusInfo;
 import org.cluj.bus.model.IndividualBusInfo;
 import org.cluj.bus.model.MapBoundsInfo;
 import org.cluj.bus.pojo.Coordinate;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.SimpleExpression;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -42,35 +54,43 @@ public class BusInfoServlet extends HttpServlet
 
     private String getResponseString(String stationId, MapBoundsInfo mapBoundsInfo)
     {
-        // TODO get the buses based on stationId
-        // and only the ones that are within the map bounds
+        final Collection<Object> stationBuses = HibernateServiceProvider.getINSTANCE().getReadService().load(StationBus.class, "station", stationId);
         Collection<BusInfo> busInfos = new ArrayList<>();
-        busInfos.add(getBusInfo("33_1", "24", 2));
-        busInfos.add(getBusInfo("33_1", "7", 1));
+        for (Object stationBus : stationBuses)
+        {
+            BusInfo busInfo;
+            final Bus bus = ((StationBus) stationBus).getBus();
+
+            final Collection<Object> activeTrips = HibernateServiceProvider.getINSTANCE().getReadService().load(Trip.class, "busId", bus.getBusinessId());
+            final Collection<IndividualBusInfo> individualBusInfos = new ArrayList<>();
+            Object busLocationUpdate = null;
+            final Session session = HibernateUtil.openSession();
+            final Transaction transaction = session.beginTransaction();
+            for (Object activeTrip : activeTrips)
+            {
+                final SimpleExpression tripId = Restrictions.eq("id", ((Trip) activeTrip).getId());
+                final Criterion latitudeRestriction = Restrictions.between("latitude", mapBoundsInfo.getSouthWest().getLatitude(), mapBoundsInfo.getNorthEast().getLatitude());
+                final Criterion longitudeRestriction = Restrictions.between("longitude", mapBoundsInfo.getSouthWest().getLongitude(), mapBoundsInfo.getNorthEast().getLongitude());
+                final Order order = Order.desc("lastUpdate");
+                busLocationUpdate = session.createCriteria(BusLocationUpdate.class).add(tripId).add(latitudeRestriction).add(longitudeRestriction).addOrder(order).list().get(0);
+                final IndividualBusInfo individualBusInfo = new IndividualBusInfo();
+                final Double latitude = ((BusLocationUpdate) busLocationUpdate).getLatitude();
+                final Double longitude = ((BusLocationUpdate) busLocationUpdate).getLongitude();
+                individualBusInfo.setCoordinate(new Coordinate(latitude, longitude));
+                individualBusInfos.add(individualBusInfo);
+            }
+            transaction.commit();
+            session.close();
+            if(busLocationUpdate != null)
+            {
+                busInfo = new BusInfo();
+                busInfo.setBusName(bus.getName());
+                busInfo.setBusId(bus.getBusinessId());
+                busInfo.setIndividualBusInfos(individualBusInfos);
+                busInfos.add(busInfo);
+            }
+        }
 
         return new Gson().toJson(busInfos);
-    }
-
-    private BusInfo getBusInfo(String busId, String busDisplayImage, int noOfIndividualBusInfos)
-    {
-        BusInfo busInfo = new BusInfo();
-        busInfo.setBusId(busId);
-        busInfo.setBusDisplayImage(busDisplayImage);
-        ArrayList<IndividualBusInfo> individualBusInfos = new ArrayList<>();
-        for (int index = 0; index < noOfIndividualBusInfos; index++)
-        {
-            individualBusInfos.add(getIndividualBusInfo(index));
-        }
-        busInfo.setIndividualBusInfos(individualBusInfos);
-
-        return busInfo;
-    }
-
-    private IndividualBusInfo getIndividualBusInfo(int index)
-    {
-        IndividualBusInfo individualBusInfo = new IndividualBusInfo();
-        individualBusInfo.setCoordinate(new Coordinate(46.7681 + ((Math.random() - 0.5) * 0.0005), 23.628 + (index * 0.003) + ((Math.random() - 0.5) * 0.0005)));
-
-        return individualBusInfo;
     }
 }

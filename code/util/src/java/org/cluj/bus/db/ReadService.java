@@ -16,6 +16,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 public class ReadService implements IReadService
 {
@@ -31,7 +32,7 @@ public class ReadService implements IReadService
     }
 
     @Override
-    public Object load(Class clazz, String propertyName, Object value)
+    public Object loadFirst(Class clazz, String propertyName, Object value)
     {
         final Session session = HibernateUtil.openSession();
         final Transaction transaction = session.beginTransaction();
@@ -39,5 +40,16 @@ public class ReadService implements IReadService
         transaction.commit();
         session.close();
         return object;
+    }
+
+    @Override
+    public Collection<Object> load(Class clazz, String propertyName, Object value)
+    {
+        final Session session = HibernateUtil.openSession();
+        final Transaction transaction = session.beginTransaction();
+        final Collection<Object> objects = session.createCriteria(clazz).add(Restrictions.eq(propertyName, value)).list();
+        transaction.commit();
+        session.close();
+        return objects;
     }
 }

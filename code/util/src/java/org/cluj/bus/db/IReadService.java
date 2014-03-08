@@ -12,10 +12,13 @@
 package org.cluj.bus.db;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 public interface IReadService
 {
     Object load(Class clazz, Serializable id);
 
-    Object load(Class clazz, String propertyName, Object value);
+    Object loadFirst(Class clazz, String propertyName, Object value);
+
+    Collection<Object> load(Class clazz, String propertyName, Object value);
 }

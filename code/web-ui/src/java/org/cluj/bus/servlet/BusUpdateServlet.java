@@ -50,7 +50,7 @@ public class BusUpdateServlet extends HttpServlet
         final double longitude = coordinate.getLongitude();
         busLocationUpdate.setLongitude(longitude);
 
-        final Trip loadedTrip = (Trip) HibernateServiceProvider.getINSTANCE().getReadService().load(Trip.class, "tripId", busLocation.getTripId());
+        final Trip loadedTrip = (Trip) HibernateServiceProvider.getINSTANCE().getReadService().loadFirst(Trip.class, "tripId", busLocation.getTripId());
 
         busLocationUpdate.setTrip(loadedTrip);
 
