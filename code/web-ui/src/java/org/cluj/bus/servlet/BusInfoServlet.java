@@ -13,6 +13,7 @@ package org.cluj.bus.servlet;
 import com.google.gson.Gson;
 import org.cluj.bus.model.BusInfo;
 import org.cluj.bus.model.IndividualBusInfo;
+import org.cluj.bus.model.MapBoundsInfo;
 import org.cluj.bus.pojo.Coordinate;
 
 import javax.servlet.ServletException;
@@ -26,17 +27,23 @@ import java.util.Collection;
 public class BusInfoServlet extends HttpServlet
 {
 
+    private static final String MAP_BOUNDS_PARAMETER_KEY = "mapBounds";
+
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException
     {
-        String stationId = httpServletRequest.getParameter(ServletUtils.STATION_ID);
+        String stationId = httpServletRequest.getParameter(ServletUtils.STATION_ID_PARAMETER_KEY);
+        String mapBoundsString = httpServletRequest.getParameter(MAP_BOUNDS_PARAMETER_KEY);
 
-        ServletUtils.sendResponse(httpServletResponse, getResponseString(stationId));
+        MapBoundsInfo mapBoundsInfo = new Gson().fromJson(mapBoundsString, MapBoundsInfo.class);
+
+        ServletUtils.sendResponse(httpServletResponse, getResponseString(stationId, mapBoundsInfo));
     }
 
-    private String getResponseString(String stationId)
+    private String getResponseString(String stationId, MapBoundsInfo mapBoundsInfo)
     {
         // TODO get the buses based on stationId
+        // and only the ones that are within the map bounds
         Collection<BusInfo> busInfos = new ArrayList<>();
         BusInfo busInfo1 = new BusInfo();
         busInfo1.setBusId("33_1");

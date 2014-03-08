@@ -69,18 +69,21 @@ function startBusInfoRefresh()
 function updateBusInfo()
 {
     var mapBounds = globalData.map.getBounds();
-
     var bounds = {
-        latNE : mapBounds.getNorthEast().lat(),
-        lngNE : mapBounds.getNorthEast().lng(),
-        latSW : mapBounds.getSouthWest().lat(),
-        lngSW : mapBounds.getSouthWest().lng()
+        northEast : {
+            latitude : mapBounds.getNorthEast().lat(),
+            longitude : mapBounds.getNorthEast().lng()
+        },
+        southWest : {
+            latitude : mapBounds.getSouthWest().lat(),
+            longitude : mapBounds.getSouthWest().lng()
+        }
     };
 
     $.ajax('busInfo', {
         type : 'POST',
         dataType : 'json',
-        data : {stationId : globalData.stationId, bounds : bounds},
+        data : {stationId : globalData.stationId, mapBounds : JSON.stringify(bounds)},
         success : onBusInfoSuccess
     })
 }

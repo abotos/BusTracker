@@ -26,7 +26,7 @@ public class StationInfoServlet extends HttpServlet
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException
     {
-        String stationId = httpServletRequest.getParameter(ServletUtils.STATION_ID);
+        String stationId = httpServletRequest.getParameter(ServletUtils.STATION_ID_PARAMETER_KEY);
 
         ServletUtils.sendResponse(httpServletResponse, getResponseString(stationId));
     }
