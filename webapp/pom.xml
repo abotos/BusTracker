@@ -38,9 +38,17 @@
                         <resource>
                             <directory>src/css</directory>
                             <filtering>false</filtering>
-                            <targetPath>js</targetPath>
+                            <targetPath>css</targetPath>
                             <includes>
                                 <include>**/*.css</include>
+                            </includes>
+                        </resource>
+                        <resource>
+                            <directory>src/images</directory>
+                            <filtering>false</filtering>
+                            <targetPath>images</targetPath>
+                            <includes>
+                                <include>**/*.png</include>
                             </includes>
                         </resource>
                         <resource>

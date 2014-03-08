@@ -17,6 +17,8 @@ public class BusInfo
 
     private String busId;
 
+    private String busDisplayImage;
+
     private Collection<IndividualBusInfo> individualBusInfos;
 
     public String getBusId()
@@ -27,6 +29,16 @@ public class BusInfo
     public void setBusId(String busId)
     {
         this.busId = busId;
+    }
+
+    public String getBusDisplayImage()
+    {
+        return busDisplayImage;
+    }
+
+    public void setBusDisplayImage(String busDisplayImage)
+    {
+        this.busDisplayImage = busDisplayImage;
     }
 
     public Collection<IndividualBusInfo> getIndividualBusInfos()
