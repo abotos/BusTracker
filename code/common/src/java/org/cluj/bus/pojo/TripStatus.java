@@ -8,10 +8,11 @@
  * and will be prosecuted to the maximum extent possible under the law.
  * *************************************************************************
  */
-package org.cluj.bus.constants;
 
-public class Constants
+package org.cluj.bus.pojo;
+
+public enum TripStatus
 {
-    public static final String LOCATION_PARAMETER_KEY = "location";
-    public static final String TRIP_STATUS_PARAMETER_KEY = "tripStatus";
+    STARTED,
+    ENDED
 }
