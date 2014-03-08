@@ -1,10 +1,8 @@
 <?xml version="1.0"?>
-<project name="Database" default="reCreateWithTestData">
+<project name="Database" default="reCreateSchema">
     <import file="Defs.xml"/>
 
     <target name="reCreateSchema" depends="reCreateUser, createSchema, populateSchema"/>
-
-    <target name="reCreateWithTestData" depends="reCreateUser, createSchema, populateSchema, populateTestData"/>
 
     <target name="reCreateUser">
         <property name="reCreateUserSQL" value="${temp.sql.dir}/reCreateUser.sql"/>
@@ -36,25 +34,13 @@
     <target name="populateSchema">
         <sql driver="${db.driver_class}" url="${db.url}" userid="${db.user}" password="${db.password}" classpath="${db.classpath}" delimiter="/">
             <transaction src="${sql.dir}/populate.sql"/>
+            <transaction src="${sql.dir}/populateStations.sql"/>
         </sql>
     </target>
 
     <target name="dropSchema">
         <sql driver="${db.driver_class}" url="${db.url}" userid="${db.user}" password="${db.password}" classpath="${db.classpath}" delimiter="/">
             <transaction src="${sql.dir}/dropSchema.sql"/>
-        </sql>
-    </target>
-
-    <target name="populateTestData">
-        <sql driver="${db.driver_class}" url="${db.url}" userid="${db.user}" password="${db.password}" classpath="${db.classpath}" delimiter="/">
-            <transaction src="${sql.dir}/populateTestData.sql"/>
-        </sql>
-    </target>
-
-    <target name="rePopulateTestData">
-        <sql driver="${db.driver_class}" url="${db.url}" userid="${db.user}" password="${db.password}" classpath="${db.classpath}" delimiter="/">
-            <transaction src="${sql.dir}/deleteTestData.sql"/>
-            <transaction src="${sql.dir}/populateTestData.sql"/>
         </sql>
     </target>
 

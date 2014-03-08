@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project name="Defs">
     <property name="db.system.user" value="system"/>
-    <property name="db.system.password" value="oracle"/>
+    <property name="db.system.password" value="system"/>
 
     <property name="db.user" value="BUS_TRACKER"/>
     <property name="db.password" value="welcome"/>
