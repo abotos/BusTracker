@@ -10,34 +10,24 @@
  */
 package org.cluj.bus.model;
 
+import org.cluj.bus.pojo.Coordinate;
+
 public class IndividualBusInfo
 {
 
-    private double coordinateX;
-
-    private double coordinateY;
+    private Coordinate coordinate;
 
     // In seconds
     private int timeToArrival;
 
-    public double getCoordinateX()
+    public Coordinate getCoordinate()
     {
-        return coordinateX;
+        return coordinate;
     }
 
-    public void setCoordinateX(double coordinateX)
+    public void setCoordinate(Coordinate coordinate)
     {
-        this.coordinateX = coordinateX;
-    }
-
-    public double getCoordinateY()
-    {
-        return coordinateY;
-    }
-
-    public void setCoordinateY(double coordinateY)
-    {
-        this.coordinateY = coordinateY;
+        this.coordinate = coordinate;
     }
 
     public int getTimeToArrival()

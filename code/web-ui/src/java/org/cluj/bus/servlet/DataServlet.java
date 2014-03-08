@@ -15,6 +15,7 @@ import org.cluj.bus.model.BusInfo;
 import org.cluj.bus.model.IndividualBusInfo;
 import org.cluj.bus.model.MapInfo;
 import org.cluj.bus.model.StationInfo;
+import org.cluj.bus.pojo.Coordinate;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -53,8 +54,8 @@ public class DataServlet extends HttpServlet
 
         StationInfo stationInfo = new StationInfo();
 
-        stationInfo.setCoordinateX(34.45);
-        stationInfo.setCoordinateY(56.89);
+        stationInfo.setStationId(stationId);
+        stationInfo.setCoordinate(new Coordinate(23.63, 46.7681));
 
         mapInfo.setStationInfo(stationInfo);
 
@@ -63,12 +64,10 @@ public class DataServlet extends HttpServlet
         busInfo1.setBusId("33_1");
         ArrayList<IndividualBusInfo> individualBusInfos = new ArrayList<>();
         IndividualBusInfo individualBusInfo1_1 = new IndividualBusInfo();
-        individualBusInfo1_1.setCoordinateX(45.5);
-        individualBusInfo1_1.setCoordinateY(56.88);
+        individualBusInfo1_1.setCoordinate(new Coordinate(45.5, 56.88));
         individualBusInfos.add(individualBusInfo1_1);
         IndividualBusInfo individualBusInfo1_2 = new IndividualBusInfo();
-        individualBusInfo1_2.setCoordinateX(46.5);
-        individualBusInfo1_2.setCoordinateY(57.89);
+        individualBusInfo1_2.setCoordinate(new Coordinate(46.5, 57.89));
         individualBusInfos.add(individualBusInfo1_2);
         busInfo1.setIndividualBusInfos(individualBusInfos);
         busInfos.add(busInfo1);

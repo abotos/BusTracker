@@ -10,14 +10,14 @@
  */
 package org.cluj.bus.model;
 
+import org.cluj.bus.pojo.Coordinate;
+
 public class StationInfo
 {
 
     private String stationId;
 
-    private double coordinateX;
-
-    private double coordinateY;
+    private Coordinate coordinate;
 
     public String getStationId()
     {
@@ -29,23 +29,13 @@ public class StationInfo
         this.stationId = stationId;
     }
 
-    public double getCoordinateX()
+    public Coordinate getCoordinate()
     {
-        return coordinateX;
+        return coordinate;
     }
 
-    public void setCoordinateX(double coordinateX)
+    public void setCoordinate(Coordinate coordinate)
     {
-        this.coordinateX = coordinateX;
-    }
-
-    public double getCoordinateY()
-    {
-        return coordinateY;
-    }
-
-    public void setCoordinateY(double coordinateY)
-    {
-        this.coordinateY = coordinateY;
+        this.coordinate = coordinate;
     }
 }
