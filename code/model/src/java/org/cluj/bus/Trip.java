@@ -28,7 +28,7 @@ public class Trip
     private String busId;
 
     @Column(name = "TRIP_ID", nullable = false)
-    private Long tripId;
+    private String tripId;
 
     public Long getId()
     {
@@ -50,12 +50,12 @@ public class Trip
         this.busId = busId;
     }
 
-    public Long getTripId()
+    public String getTripId()
     {
         return tripId;
     }
 
-    public void setTripId(Long tripId)
+    public void setTripId(String tripId)
     {
         this.tripId = tripId;
     }

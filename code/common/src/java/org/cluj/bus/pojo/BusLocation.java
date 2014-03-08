@@ -17,6 +17,8 @@ public class BusLocation
 {
     private String busId;
 
+    private String tripId;
+
     private Coordinate coordinate;
 
     public String getBusId()
@@ -27,6 +29,16 @@ public class BusLocation
     public void setBusId(String busId)
     {
         this.busId = busId;
+    }
+
+    public String getTripId()
+    {
+        return tripId;
+    }
+
+    public void setTripId(String tripId)
+    {
+        this.tripId = tripId;
     }
 
     public Coordinate getCoordinate()

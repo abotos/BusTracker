@@ -8,26 +8,10 @@
  * and will be prosecuted to the maximum extent possible under the law.
  * *************************************************************************
  */
-package org.cluj.bus;
 
-import java.util.ArrayList;
-import java.util.Collection;
+package org.cluj.bus.db;
 
-public class AnnotatedClassProvider
+public interface IWriteService
 {
-
-    private static final Collection<Class> ANNOTATED_CLASSES = new ArrayList<Class>();
-
-    static
-    {
-        ANNOTATED_CLASSES.add(BusLocationUpdate.class);
-        ANNOTATED_CLASSES.add(Bus.class);
-        ANNOTATED_CLASSES.add(Station.class);
-        ANNOTATED_CLASSES.add(Trip.class);
-    }
-
-    public static Collection<Class> getAnnotatedClasses()
-    {
-        return ANNOTATED_CLASSES;
-    }
+    void update(Object object);
 }

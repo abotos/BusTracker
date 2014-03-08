@@ -12,7 +12,10 @@ package org.cluj.bus.servlet;
 
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
+import org.cluj.bus.BusLocationUpdate;
+import org.cluj.bus.Trip;
 import org.cluj.bus.constants.Constants;
+import org.cluj.bus.db.HibernateServiceProvider;
 import org.cluj.bus.pojo.BusLocation;
 import org.cluj.bus.pojo.Coordinate;
 
@@ -35,8 +38,21 @@ public class BusUpdateServlet extends HttpServlet
 
         BusLocation busLocation = new Gson().fromJson(locationJson, BusLocation.class);
 
-        final Coordinate busLocationCoordinate = busLocation.getCoordinate();
-        LOGGER.info(String.format(BUS_LOCATION_MSG, busLocation.getBusId(), busLocationCoordinate.getX(), busLocationCoordinate.getX()));
+        final Coordinate coordinate = busLocation.getCoordinate();
+
+        final Trip trip = new Trip();
+        trip.setBusId(busLocation.getBusId());
+        trip.setTripId(busLocation.getTripId());
+        final BusLocationUpdate busLocationUpdate = new BusLocationUpdate();
+        busLocationUpdate.setTrip(trip);
+        final double coordinateX = coordinate.getX();
+        busLocationUpdate.setCoordinateX(coordinateX);
+        final double coordinateY = coordinate.getY();
+        busLocationUpdate.setCoordinateY(coordinateY);
+
+        HibernateServiceProvider.getINSTANCE().getWriteService().update(busLocationUpdate);
+
+        LOGGER.info(String.format(BUS_LOCATION_MSG, busLocation.getBusId(), coordinateX, coordinateY));
     }
 
     @Override
