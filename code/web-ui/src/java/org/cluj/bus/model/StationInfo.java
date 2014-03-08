@@ -8,42 +8,44 @@
  * and will be prosecuted to the maximum extent possible under the law.
  * *************************************************************************
  */
+package org.cluj.bus.model;
 
-package org.cluj.bus.pojo;
-
-public class Coordinate
+public class StationInfo
 {
-    private double x;
 
-    private double y;
+    private String stationId;
 
-    public Coordinate()
+    private double coordinateX;
+
+    private double coordinateY;
+
+    public String getStationId()
     {
+        return stationId;
     }
 
-    public Coordinate(double x, double y)
+    public void setStationId(String stationId)
     {
-        this.x = x;
-        this.y = y;
+        this.stationId = stationId;
     }
 
-    public double getX()
+    public double getCoordinateX()
     {
-        return x;
+        return coordinateX;
     }
 
-    public void setX(double x)
+    public void setCoordinateX(double coordinateX)
     {
-        this.x = x;
+        this.coordinateX = coordinateX;
     }
 
-    public double getY()
+    public double getCoordinateY()
     {
-        return y;
+        return coordinateY;
     }
 
-    public void setY(double y)
+    public void setCoordinateY(double coordinateY)
     {
-        this.y = y;
+        this.coordinateY = coordinateY;
     }
 }

@@ -8,42 +8,34 @@
  * and will be prosecuted to the maximum extent possible under the law.
  * *************************************************************************
  */
+package org.cluj.bus.model;
 
-package org.cluj.bus.pojo;
+import java.util.Collection;
 
-public class Coordinate
+public class MapInfo
 {
-    private double x;
 
-    private double y;
+    private StationInfo stationInfo;
 
-    public Coordinate()
+    private Collection<BusInfo> busInfos;
+
+    public StationInfo getStationInfo()
     {
+        return stationInfo;
     }
 
-    public Coordinate(double x, double y)
+    public void setStationInfo(StationInfo stationInfo)
     {
-        this.x = x;
-        this.y = y;
+        this.stationInfo = stationInfo;
     }
 
-    public double getX()
+    public Collection<BusInfo> getBusInfos()
     {
-        return x;
+        return busInfos;
     }
 
-    public void setX(double x)
+    public void setBusInfos(Collection<BusInfo> busInfos)
     {
-        this.x = x;
-    }
-
-    public double getY()
-    {
-        return y;
-    }
-
-    public void setY(double y)
-    {
-        this.y = y;
+        this.busInfos = busInfos;
     }
 }

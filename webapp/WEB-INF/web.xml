@@ -35,6 +35,12 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
+    <servlet>
+        <servlet-name>Data</servlet-name>
+        <servlet-class>org.cluj.bus.servlet.DataServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>Initializer</servlet-name>
         <url-pattern>/main</url-pattern>
@@ -45,6 +51,10 @@
         <url-pattern>/busUpdate/*</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>Data</servlet-name>
+        <url-pattern>/data/*</url-pattern>
+    </servlet-mapping>
 
     <!--location to prevent users from listing some resources-->
     <!--<welcome-file-list>-->

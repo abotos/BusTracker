@@ -21,6 +21,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 import org.cluj.bus.constants.Constants;
 import org.cluj.bus.pojo.BusLocation;
+import org.cluj.bus.pojo.Coordinate;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -87,8 +88,7 @@ public class BotThread extends Thread
         BusLocation location = new BusLocation();
 
         location.setBusId("MyBus");
-        location.setxLat(123.5);
-        location.setyLat(22.6);
+        location.setCoordinate(new Coordinate(123.5, 22.6));
 
         return location;
     }
