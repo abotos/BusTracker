@@ -30,6 +30,14 @@
         <module name="webapp" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="bus-bot" target="1.7" />
+      <module name="common" target="1.7" />
+      <module name="model" target="1.7" />
+      <module name="util" target="1.7" />
+      <module name="web-ui" target="1.7" />
+      <module name="webapp" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>
 
