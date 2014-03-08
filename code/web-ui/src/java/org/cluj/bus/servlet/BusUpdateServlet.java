@@ -8,7 +8,7 @@
  * and will be prosecuted to the maximum extent possible under the law.
  * *************************************************************************
  */
-package org.cluj.bus;
+package org.cluj.bus.servlet;
 
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;

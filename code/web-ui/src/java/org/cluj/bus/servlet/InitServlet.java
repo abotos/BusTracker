@@ -8,9 +8,10 @@
  * and will be prosecuted to the maximum extent possible under the law.
  * *************************************************************************
  */
-package org.cluj.bus;
+package org.cluj.bus.servlet;
 
 import org.apache.log4j.Logger;
+import org.cluj.bus.AnnotatedClassProvider;
 import org.cluj.bus.db.HibernateUtil;
 import org.cluj.bus.logging.LogInitializer;
 
