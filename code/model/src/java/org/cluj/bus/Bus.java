@@ -30,6 +30,9 @@ public class Bus
     @Column(name = "NAME", nullable = false)
     private String name;
 
+    @Column(name = "DISPLAY_IMAGE", nullable = false)
+    private String displayImage;
+
     public Long getId()
     {
         return id;
@@ -58,5 +61,15 @@ public class Bus
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    public String getDisplayImage()
+    {
+        return displayImage;
+    }
+
+    public void setDisplayImage(String displayImage)
+    {
+        this.displayImage = displayImage;
     }
 }

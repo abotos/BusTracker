@@ -1,44 +1,48 @@
 -- --#################INSERTING DATA INTO BUS#############################
 INSERT INTO BUS
-(ID, BUSINESS_ID, NAME)
+(ID, BUSINESS_ID, NAME, DISPLAY_IMAGE)
 VALUES
-  (S_BUS.NEXTVAL, '24_1', 'MyBus1')
+  (S_BUS.NEXTVAL, '24_1', '24 - Str.Bucium - Str.Unirii', '24')
 /
 
 INSERT INTO BUS
-(ID, BUSINESS_ID, NAME)
+(ID, BUSINESS_ID, NAME, DISPLAY_IMAGE)
 VALUES
-  (S_BUS.NEXTVAL, '9_1', 'MyBus2')
-/
--- --#################END INSERTING DATA INTO BUS#############################
-
--- --#################INSERTING DATA INTO TRIP#################################
-
-INSERT INTO TRIP
-(ID, BUS_ID, TRIP_ID)
-VALUES
-  (S_TRIP.NEXTVAL, '24_1', 'qwertyu')
+  (S_BUS.NEXTVAL, '24_2', '24 - Str.Unirii - Str.Bucium', '24')
 /
 
-INSERT INTO TRIP
-(ID, BUS_ID, TRIP_ID)
+INSERT INTO BUS
+(ID, BUSINESS_ID, NAME, DISPLAY_IMAGE)
 VALUES
-  (S_TRIP.NEXTVAL, '9_1', 'asdfghjk')
-/
--- --#################END INSERTING DATA INTO TRIP#############################
-
--- --#################INSERTING DATA INTO BUS_LOCATION_UPDATE#################################
-
-INSERT INTO BUS_LOCATION_UPDATE
-(ID, LAST_UPDATE, TRIP_ID, LATITUDE, LONGITUDE)
-VALUES
-(S_BUS_LOCATION_UPDATE.NEXTVAL, TO_TIMESTAMP('5/5/2020 12:00:00.000000 AM', 'fmMMfm/fmDDfm/YYYY fmHH12fm:MI:SS.FF AM'), 'qwertyu', 100.2, 200.3)
+  (S_BUS.NEXTVAL, '6_1', '6 - Str.Bucium - Str Aurel Vlaicu', '6')
 /
 
-INSERT INTO BUS_LOCATION_UPDATE
-(ID, LAST_UPDATE, TRIP_ID, LATITUDE, LONGITUDE)
+INSERT INTO BUS
+(ID, BUSINESS_ID, NAME, DISPLAY_IMAGE)
 VALUES
-  (S_BUS_LOCATION_UPDATE.NEXTVAL, TO_TIMESTAMP('5/5/2021 12:00:00.000000 AM', 'fmMMfm/fmDDfm/YYYY fmHH12fm:MI:SS.FF AM'), 'qwertyu', 100.5, 210.6)
+  (S_BUS.NEXTVAL, '6_2', '6 - Str Aurel Vlaicu - Str.Bucium', '6')
 /
 
---#################END INSERTING DATA INTO BUS_LOCATION_UPDATE##############################
+INSERT INTO BUS
+(ID, BUSINESS_ID, NAME, DISPLAY_IMAGE)
+VALUES
+  (S_BUS.NEXTVAL, '7_1', '7 - Str.Izlazului - Str.Aurel Vlaicu', '7')
+/
+
+INSERT INTO BUS
+(ID, BUSINESS_ID, NAME, DISPLAY_IMAGE)
+VALUES
+  (S_BUS.NEXTVAL, '7_2', '7 - Str.Aurel Vlaicu - Str.Izlazului', '7')
+/
+
+INSERT INTO BUS
+(ID, BUSINESS_ID, NAME, DISPLAY_IMAGE)
+VALUES
+  (S_BUS.NEXTVAL, '35_1', '35 - Cart.Zorilor - P-ta Garii', '35')
+/
+
+INSERT INTO BUS
+(ID, BUSINESS_ID, NAME, DISPLAY_IMAGE)
+VALUES
+  (S_BUS.NEXTVAL, '35_2', '35 - P-ta Garii - Cart.Zorilor', '35')
+/
