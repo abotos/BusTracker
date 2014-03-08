@@ -35,6 +35,7 @@
         <sql driver="${db.driver_class}" url="${db.url}" userid="${db.user}" password="${db.password}" classpath="${db.classpath}" delimiter="/">
             <transaction src="${sql.dir}/populate.sql"/>
             <transaction src="${sql.dir}/populateStations.sql"/>
+            <transaction src="${sql.dir}/populateBusStations.sql"/>
         </sql>
     </target>
 
