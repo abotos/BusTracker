@@ -39,7 +39,7 @@ public class BusUpdateServlet extends HttpServlet
         Session session = HibernateUtil.openSession();
         Transaction transaction = session.beginTransaction();
 
-//        LOGGER.info("Saving object");
+        LOGGER.info("Saving object");
 //
 //        BusLocationUpdate newBusLocation = new BusLocationUpdate();
 //        newBusLocation.setName("Test");
