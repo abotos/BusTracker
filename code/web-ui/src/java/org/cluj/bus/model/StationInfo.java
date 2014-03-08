@@ -17,6 +17,8 @@ public class StationInfo
 
     private String stationId;
 
+    private String displayName;
+
     private Coordinate coordinate;
 
     public String getStationId()
@@ -27,6 +29,16 @@ public class StationInfo
     public void setStationId(String stationId)
     {
         this.stationId = stationId;
+    }
+
+    public String getDisplayName()
+    {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName)
+    {
+        this.displayName = displayName;
     }
 
     public Coordinate getCoordinate()

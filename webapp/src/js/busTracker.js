@@ -47,7 +47,7 @@ function onStationInfoSuccess(data, status, request)
 
     var marker = new google.maps.Marker({
         position : stationLatLng,
-        title : data.stationId
+        title : data.displayName
     });
 
     globalData.stationMarker = marker;

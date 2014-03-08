@@ -11,6 +11,9 @@
 package org.cluj.bus.servlet;
 
 import com.google.gson.Gson;
+import org.cluj.bus.Station;
+import org.cluj.bus.db.HibernateServiceProvider;
+import org.cluj.bus.db.IReadService;
 import org.cluj.bus.model.StationInfo;
 import org.cluj.bus.pojo.Coordinate;
 
@@ -33,11 +36,13 @@ public class StationInfoServlet extends HttpServlet
 
     private String getResponseString(String stationId)
     {
-
+        IReadService readService = HibernateServiceProvider.getINSTANCE().getReadService();
+        Station station = (Station) readService.load(Station.class, "businessId", stationId);
         StationInfo stationInfo = new StationInfo();
 
         stationInfo.setStationId(stationId);
-        stationInfo.setCoordinate(new Coordinate(46.7681, 23.63));
+        stationInfo.setDisplayName(station.getName());
+        stationInfo.setCoordinate(new Coordinate(station.getLatitude(), station.getLongitude()));
 
         return new Gson().toJson(stationInfo);
     }
