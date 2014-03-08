@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BusTracker.iml" filepath="$PROJECT_DIR$/BusTracker.iml" />
       <module fileurl="file://$PROJECT_DIR$/code/code.iml" filepath="$PROJECT_DIR$/code/code.iml" />
+      <module fileurl="file://$PROJECT_DIR$/code/common/common.iml" filepath="$PROJECT_DIR$/code/common/common.iml" />
       <module fileurl="file://$PROJECT_DIR$/code/model/model.iml" filepath="$PROJECT_DIR$/code/model/model.iml" />
       <module fileurl="file://$PROJECT_DIR$/code/util/util.iml" filepath="$PROJECT_DIR$/code/util/util.iml" />
       <module fileurl="file://$PROJECT_DIR$/code/web-ui/web-ui.iml" filepath="$PROJECT_DIR$/code/web-ui/web-ui.iml" />
