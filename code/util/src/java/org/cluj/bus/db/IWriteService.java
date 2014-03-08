@@ -16,4 +16,6 @@ import java.io.Serializable;
 public interface IWriteService
 {
     Serializable save(Object object);
+
+    void update(Object object);
 }
