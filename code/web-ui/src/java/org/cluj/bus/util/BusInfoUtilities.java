@@ -21,6 +21,8 @@ public class BusInfoUtilities
 {
 
     public static final double PROXIMITY_CONSTANT = 1.5;
+    public static final int MINUTES_IN_A_DAY = 1440;
+    public static final int MINUTE_IN_MILLISECONDS = 60000;
 
     public static boolean isInViewPort(BusLocationUpdate latest, MapBoundsInfo mapBoundsInfo)
     {
@@ -114,11 +116,15 @@ public class BusInfoUtilities
 
             double distanceToStation = distance(latest.getLatitude(), latest.getLongitude(), station.getLatitude(), station.getLongitude());
 
-            double timeToStation = (distanceToStation / averageSpeed) / 60000;
+            double timeToStation = (distanceToStation / averageSpeed) / MINUTE_IN_MILLISECONDS;
 
             result = (int) timeToStation;
         }
-
+        //this might be a computational error
+        if(result > MINUTES_IN_A_DAY)
+        {
+            result = -1;
+        }
         return result;
     }
 
