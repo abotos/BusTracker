@@ -31,28 +31,30 @@ import java.util.List;
 
 public class BotThread extends Thread
 {
-    private final String busId;
-    private final Collection<WayPointInfo> wayPointInfoCollection;
-
     private static final Logger LOGGER = Logger.getLogger(BotThread.class);
 
-    // TODO unhardcode these
-    private static final String BUS_UPDATE_SERVLET_URL = "http://localhost:8080/bustracker/busUpdate";
+    private static final int END_OF_TRIP_WAIT_INTERVAL = 10000;
 
-    private static final String TRIP_STATUS_SERVLET_URL = "http://localhost:8080/bustracker/tripStatus";
+    private final String busId;
+
+    private final Collection<WayPointInfo> wayPointInfoCollection;
+
+    private final String busUpdateServletUrl;
+
+    private final String tripStatusServletUrl;
 
     public static final int SIGMA = 1000;
 
     public static final int MU = 10000;
 
-    private static final int END_OF_TRIP_WAIT_INTERVAL = 10000;
-
     private boolean running = true;
 
-    public BotThread(String busId, Collection<WayPointInfo> wayPointInfoCollection)
+    public BotThread(String host, String busId, Collection<WayPointInfo> wayPointInfoCollection)
     {
         this.busId = busId;
         this.wayPointInfoCollection = wayPointInfoCollection;
+        this.busUpdateServletUrl = String.format("http://%s:8080/bustracker/busUpdate", host);
+        this.tripStatusServletUrl = String.format("http://%s:8080/bustracker/tripStatus", host);
     }
 
     public void setRunning(boolean running)
@@ -74,7 +76,7 @@ public class BotThread extends Thread
 
                 endTrip(tripId);
 
-                LOGGER.info("Trip ended. Waiting in the depo...");
+                LOGGER.info("Trip ended. Waiting in the depot...");
                 Thread.sleep(END_OF_TRIP_WAIT_INTERVAL);
             }
             catch (InterruptedException e)
@@ -93,7 +95,7 @@ public class BotThread extends Thread
         final TripStatus tripStatus = new TripStatus();
         tripStatus.setStatus(Status.STARTED);
         tripStatus.setBusId(busId);
-        final CloseableHttpResponse response = getCloseableHttpResponse(TRIP_STATUS_SERVLET_URL, Constants.TRIP_STATUS_PARAMETER_KEY, tripStatus);
+        final CloseableHttpResponse response = getCloseableHttpResponse(tripStatusServletUrl, Constants.TRIP_STATUS_PARAMETER_KEY, tripStatus);
         final HttpEntity entity = response.getEntity();
         //TODO: get charset encoding from response!!!
         final String jsonReply = IOUtils.toString(entity.getContent(), "utf-8");
@@ -109,7 +111,7 @@ public class BotThread extends Thread
         tripStatus.setTripId(tripId);
         tripStatus.setBusId(busId);
         tripStatus.setStatus(Status.ENDED);
-        final CloseableHttpResponse response = getCloseableHttpResponse(TRIP_STATUS_SERVLET_URL, Constants.TRIP_STATUS_PARAMETER_KEY, tripStatus);
+        final CloseableHttpResponse response = getCloseableHttpResponse(tripStatusServletUrl, Constants.TRIP_STATUS_PARAMETER_KEY, tripStatus);
         final HttpEntity entity = response.getEntity();
         //TODO: get charset encoding from response!!!
         final String jsonReply = IOUtils.toString(entity.getContent(), "utf-8");
@@ -120,7 +122,7 @@ public class BotThread extends Thread
         }
         else
         {
-            LOGGER.error("An error occured " + status);
+            LOGGER.error("An error occurred " + status);
         }
     }
 
@@ -154,7 +156,7 @@ public class BotThread extends Thread
 
     private void sendLocationUpdate(BusLocation location) throws IOException
     {
-        final CloseableHttpResponse response = getCloseableHttpResponse(BUS_UPDATE_SERVLET_URL, Constants.LOCATION_PARAMETER_KEY, location);
+        final CloseableHttpResponse response = getCloseableHttpResponse(busUpdateServletUrl, Constants.LOCATION_PARAMETER_KEY, location);
     }
 
     private long getStandardGaussian(long sigma, long mu)
