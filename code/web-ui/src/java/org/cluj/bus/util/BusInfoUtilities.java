@@ -15,6 +15,8 @@ import org.cluj.bus.Station;
 import org.cluj.bus.model.MapBoundsInfo;
 import org.cluj.bus.pojo.Coordinate;
 
+import java.util.List;
+
 public class BusInfoUtilities
 {
 
@@ -86,9 +88,38 @@ public class BusInfoUtilities
         return answer;
     }
 
-    public static int computeETA()
+    public static int computeETA(Station station, List<BusLocationUpdate> busLocationUpdateList)
     {
-        return 0;
+        BusLocationUpdate latest = busLocationUpdateList.get(0);
+
+        double averageSpeed = 0;
+
+        for (int index = 0; index < busLocationUpdateList.size() - 2; index++)
+        {
+            BusLocationUpdate current = busLocationUpdateList.get(index);
+            BusLocationUpdate previous = busLocationUpdateList.get(index + 1);
+
+            double distance = distance(current.getLatitude(), current.getLongitude(), previous.getLatitude(), previous.getLongitude());
+
+            double speed = distance / (current.getLastUpdate().getTime() - previous.getLastUpdate().getTime());
+
+            averageSpeed += speed;
+        }
+
+        int result = -1;
+
+        if (busLocationUpdateList.size() >= 2)
+        {
+            averageSpeed /= (busLocationUpdateList.size() - 1);
+
+            double distanceToStation = distance(latest.getLatitude(), latest.getLongitude(), station.getLatitude(), station.getLongitude());
+
+            double timeToStation = (distanceToStation / averageSpeed) / 60000;
+
+            result = (int) timeToStation;
+        }
+
+        return result;
     }
 
     private static double distance(double latitude1, double longitude1, double latitude2, double longitude2)

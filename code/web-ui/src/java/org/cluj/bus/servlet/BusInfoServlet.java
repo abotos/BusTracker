@@ -110,7 +110,7 @@ public class BusInfoServlet extends HttpServlet
                         final IndividualBusInfo individualBusInfo = getIndividualBusInfo(latest);
                         individualBusInfo.setApproaching(true);
                         individualBusInfo.setInViewPort(BusInfoUtilities.isInViewPort(latest, mapBoundsInfo));
-                        individualBusInfo.setTimeToArrival(BusInfoUtilities.computeETA());
+                        individualBusInfo.setTimeToArrival(BusInfoUtilities.computeETA(station, busLocationUpdateList));
                         individualBusInfos.add(individualBusInfo);
                     }
                     else
