@@ -133,10 +133,10 @@ function onBusInfoSuccess(data, status, request)
             if (individualValue.approaching)
             {
                 $('#buses').append('<tr>' +
-                    '<td><img src="' + busDisplayImage + '"></td>' +
-                    '<td>' + value.busName + '</td>' +
-                    '<td>' + ((individualValue.timeToArrival !== -1) ? individualValue.timeToArrival : 'N/A') + ' minutes</td>' +
-                    '<td>' + (individualValue.inViewPort ? '' : 'Zoom out for location on map') + '</td>' +
+                    '<td class="bus_icon"><img src="' + busDisplayImage + '"></td>' +
+                    '<td class="bus">' + value.busName + '</td>' +
+                    '<td class="eta">' + ((individualValue.timeToArrival !== -1) ? individualValue.timeToArrival : 'N/A') + ' minutes</td>' +
+                    '<td class="info">' + (individualValue.inViewPort ? '' : 'Zoom out for location on map') + '</td>' +
                     '</tr>');
             }
         });
