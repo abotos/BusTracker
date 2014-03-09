@@ -44,9 +44,10 @@ public class BusBot
         final Collection<WayPointInfo> wayPointInfos = new ArrayList<>(strings.size());
         for(String line : strings)
         {
-            final String latitudeString = new StringTokenizer(line, ";").nextToken();
-            final String longitudeString = new StringTokenizer(line, ";").nextToken();
-            final String isStationString = new StringTokenizer(line, ";").nextToken();
+            StringTokenizer tokenizer = new StringTokenizer(line, ";");
+            final String latitudeString = tokenizer.nextToken();
+            final String longitudeString = tokenizer.nextToken();
+            final String isStationString = tokenizer.nextToken();
             final Double latitude = Double.parseDouble(latitudeString);
             final Double longitude = Double.parseDouble(longitudeString);
             final Boolean isStation = Boolean.parseBoolean(isStationString);

@@ -37,7 +37,7 @@ public class StationInfoServlet extends HttpServlet
     private String getResponseString(String stationId)
     {
         IReadService readService = HibernateServiceProvider.getINSTANCE().getReadService();
-        Station station = (Station) readService.load(Station.class, "businessId", stationId);
+        Station station = (Station) readService.loadFirst(Station.class, "businessId", stationId);
         StationInfo stationInfo = new StationInfo();
 
         stationInfo.setStationId(stationId);

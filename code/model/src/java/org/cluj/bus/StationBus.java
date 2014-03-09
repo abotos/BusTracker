@@ -14,7 +14,7 @@ package org.cluj.bus;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "STATION_BUS")
+@Table(name = "STATION_BUS_VIEW")
 @AttributeOverride(name = "id", column = @Column(name = "ID", nullable = false))
 @SequenceGenerator(name = "SEQ", sequenceName = "S_STATION_BUS")
 public class StationBus

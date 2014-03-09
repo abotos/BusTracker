@@ -29,7 +29,7 @@ public class BusUpdateServlet extends HttpServlet
 {
 
     private static final Logger LOGGER = Logger.getLogger(BusUpdateServlet.class);
-    private static final String BUS_LOCATION_MSG = "Bus location [busId=%s xLat=%f yLong=%f]";
+    private static final String BUS_LOCATION_MSG = "Bus location [busId=%s Lat=%f Long=%f]";
 
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException

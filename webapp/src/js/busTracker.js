@@ -35,12 +35,21 @@ function onPageReady()
 function onStationInfoSuccess(data, status, request)
 {
     globalData.stationInfo = data;
+
+    $('#station').text('Station:' + data.displayName);
+
     var stationCoordinate = data.coordinate;
 
     var stationLatLng = new google.maps.LatLng(stationCoordinate.latitude, stationCoordinate.longitude);
     var mapOptions = {
         center : stationLatLng,
-        zoom : 18
+        zoom : 18,
+        styles : [
+            {
+                featureType : 'transit.station.bus',
+                stylers : [{visibility : 'off'}]
+            }
+        ]
     };
     var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
     globalData.map = map;
@@ -100,6 +109,7 @@ function onBusInfoSuccess(data, status, request)
     }
 
     globalData.currentMarkers = [];
+    $('#buses tr').remove();
 
     $.each(data, function(index, value){
         // TODO do something with the bus id
@@ -120,6 +130,8 @@ function onBusInfoSuccess(data, status, request)
 
             individualMarker.setMap(globalData.map);
         });
+
+        $('#buses').append('<tr><td><img src="' + busDisplayImage + '"></td><td>' + value.busName + '</td><td>? minutes</td></tr>');
     });
 }
 

@@ -8,8 +8,8 @@
     </extension>
     <option name="MAIN_CLASS_NAME" value="org.cluj.bus.BusBot" />
     <option name="VM_PARAMETERS" value="" />
-    <option name="PROGRAM_PARAMETERS" value="24_1 c:\Users\szssipos\Downloads\exemplu_route.csv" />
-    <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+    <option name="PROGRAM_PARAMETERS" value="24_1 resources/route_24_1.csv" />
+    <option name="WORKING_DIRECTORY" value="file://$MODULE_DIR$" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
     <option name="ALTERNATIVE_JRE_PATH" value="" />
     <option name="ENABLE_SWING_INSPECTOR" value="false" />

@@ -11,10 +11,7 @@
 package org.cluj.bus.servlet;
 
 import com.google.gson.Gson;
-import org.cluj.bus.Bus;
-import org.cluj.bus.BusLocationUpdate;
-import org.cluj.bus.StationBus;
-import org.cluj.bus.Trip;
+import org.cluj.bus.*;
 import org.cluj.bus.db.HibernateServiceProvider;
 import org.cluj.bus.db.HibernateUtil;
 import org.cluj.bus.model.BusInfo;
@@ -35,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class BusInfoServlet extends HttpServlet
 {
@@ -54,7 +52,9 @@ public class BusInfoServlet extends HttpServlet
 
     private String getResponseString(String stationId, MapBoundsInfo mapBoundsInfo)
     {
-        final Collection<Object> stationBuses = HibernateServiceProvider.getINSTANCE().getReadService().load(StationBus.class, "station", stationId);
+        Station station = (Station) HibernateServiceProvider.getINSTANCE().getReadService().loadFirst(Station.class, "businessId", stationId);
+        final Collection<Object> stationBuses = HibernateServiceProvider.getINSTANCE().getReadService().load(StationBus.class, "station", station);
+
         Collection<BusInfo> busInfos = new ArrayList<>();
         for (Object stationBus : stationBuses)
         {
@@ -70,16 +70,21 @@ public class BusInfoServlet extends HttpServlet
             Object busLocationUpdate = null;
             for (Object activeTrip : activeTrips)
             {
-                final SimpleExpression tripIdRestriction = Restrictions.eq("id", ((Trip) activeTrip).getId());
+                final Criterion tripIdRestriction = Restrictions.eq("trip", activeTrip);
                 final Criterion latitudeRestriction = Restrictions.between("latitude", mapBoundsInfo.getSouthWest().getLatitude(), mapBoundsInfo.getNorthEast().getLatitude());
                 final Criterion longitudeRestriction = Restrictions.between("longitude", mapBoundsInfo.getSouthWest().getLongitude(), mapBoundsInfo.getNorthEast().getLongitude());
                 final Order order = Order.desc("lastUpdate");
-                busLocationUpdate = session.createCriteria(BusLocationUpdate.class).add(tripIdRestriction).add(latitudeRestriction).add(longitudeRestriction).addOrder(order).list().get(0);
-                final IndividualBusInfo individualBusInfo = new IndividualBusInfo();
-                final Double latitude = ((BusLocationUpdate) busLocationUpdate).getLatitude();
-                final Double longitude = ((BusLocationUpdate) busLocationUpdate).getLongitude();
-                individualBusInfo.setCoordinate(new Coordinate(latitude, longitude));
-                individualBusInfos.add(individualBusInfo);
+                List<BusLocationUpdate> busLocationUpdateList = session.createCriteria(BusLocationUpdate.class).add(tripIdRestriction).add(latitudeRestriction).add(longitudeRestriction).addOrder(order).list();
+
+                if (busLocationUpdateList.size() > 0)
+                {
+                    busLocationUpdate = busLocationUpdateList.get(0);
+                    final IndividualBusInfo individualBusInfo = new IndividualBusInfo();
+                    final Double latitude = ((BusLocationUpdate) busLocationUpdate).getLatitude();
+                    final Double longitude = ((BusLocationUpdate) busLocationUpdate).getLongitude();
+                    individualBusInfo.setCoordinate(new Coordinate(latitude, longitude));
+                    individualBusInfos.add(individualBusInfo);
+                }
             }
             transaction.commit();
             session.close();
@@ -88,6 +93,7 @@ public class BusInfoServlet extends HttpServlet
                 busInfo = new BusInfo();
                 busInfo.setBusName(bus.getName());
                 busInfo.setBusId(bus.getBusinessId());
+                busInfo.setBusDisplayImage(bus.getDisplayImage());
                 busInfo.setIndividualBusInfos(individualBusInfos);
                 busInfos.add(busInfo);
             }

@@ -5,7 +5,10 @@
     <style type="text/css">
         html { height: 100% }
         body { height: 100%; margin: 0; padding: 0 }
-        #map-canvas { height: 80%; width: 80%; margin: 10%}
+        /*#station {margin-left: 10%; margin-right: 10%}*/
+        #map-canvas { height: 80%; width: 80%; margin-left: 10%; margin-right: 10%}
+        .centered {margin-left: 10%; margin-right: 10%}
+        #buses {width: 100%}
     </style>
     <script type="text/javascript"
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAIxWg-iiYcG5HjexBRVPS0vJTFdR_yGA&sensor=false">
@@ -17,6 +20,12 @@
     </script>
 </head>
 <body>
+<div id="station" class="centered"></div>
+<div class="centered">
+    <table id="buses">
+        <caption>Buses traveling to your station:</caption>
+    </table>
+</div>
 <div id="map-canvas"></div>
 </body>
 </html>

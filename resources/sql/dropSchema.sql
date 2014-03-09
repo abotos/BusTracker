@@ -41,6 +41,7 @@ begin execute immediate 'ALTER TABLE STATION DROP CONSTRAINT UNIQUE_BUSINESS_ID'
 
 begin execute immediate 'ALTER TABLE STATION DROP CONSTRAINT UNIQUE_NAME'; exception when others then if sqlcode !=-2443 and sqlcode != -942 then raise; end if; end;
 /
+
 --##################################################################### DROP_TABLES ################################################
 
 begin execute immediate 'DROP TABLE TRIP'; exception when others then if sqlcode != -942 then raise; end if; end;
@@ -52,6 +53,11 @@ begin execute immediate 'DROP TABLE BUS_LOCATION_UPDATE'; exception when others 
 begin execute immediate 'DROP TABLE STATION'; exception when others then if sqlcode != -942 then raise; end if; end;
 /
 begin execute immediate 'DROP TABLE STATION_BUS'; exception when others then if sqlcode != -942 then raise; end if; end;
+/
+
+--##################################################################### DROP_VIEWS ################################################
+
+begin execute immediate 'DROP VIEW STATION_BUS_VIEW'; exception when others then if sqlcode != -942 then raise; end if; end;
 /
 
 --##################################################################### DROP_SEQUENCES ################################################

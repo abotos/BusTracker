@@ -24,6 +24,7 @@ public class AnnotatedClassProvider
         ANNOTATED_CLASSES.add(Bus.class);
         ANNOTATED_CLASSES.add(Station.class);
         ANNOTATED_CLASSES.add(Trip.class);
+        ANNOTATED_CLASSES.add(StationBus.class);
     }
 
     public static Collection<Class> getAnnotatedClasses()
