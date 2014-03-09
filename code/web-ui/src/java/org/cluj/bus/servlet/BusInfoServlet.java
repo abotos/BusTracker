@@ -18,6 +18,7 @@ import org.cluj.bus.model.BusInfo;
 import org.cluj.bus.model.IndividualBusInfo;
 import org.cluj.bus.model.MapBoundsInfo;
 import org.cluj.bus.pojo.Coordinate;
+import org.cluj.bus.util.BusInfoUtilities;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
@@ -86,19 +87,35 @@ public class BusInfoServlet extends HttpServlet
                     }
                     else if (busLocationUpdateSize >= 2)
                     {
-                        isApproaching = isApproaching(latest, busLocationUpdateList.get(1), station.getLatitude(), station.getLongitude());
+                        boolean trackingApproaching = true;
+
+                        for (int index = busLocationUpdateSize - 2; index >= 0; index--)
+                        {
+                            BusLocationUpdate previousUpdate = busLocationUpdateList.get(index + 1);
+                            BusLocationUpdate currentUpdate = busLocationUpdateList.get(index);
+
+                            boolean currentApproaching = BusInfoUtilities.isApproaching(currentUpdate, previousUpdate, station.getLatitude(), station.getLongitude());
+
+                            if ((!currentApproaching) && (BusInfoUtilities.isInProximity(station, currentUpdate, previousUpdate)))
+                            {
+                                trackingApproaching = false;
+                                break;
+                            }
+                        }
+                        isApproaching = trackingApproaching;
                     }
 
                     if (isApproaching)
                     {
                         final IndividualBusInfo individualBusInfo = getIndividualBusInfo(latest);
                         individualBusInfo.setApproaching(true);
-                        individualBusInfo.setInViewPort(isInViewPort(latest, mapBoundsInfo));
+                        individualBusInfo.setInViewPort(BusInfoUtilities.isInViewPort(latest, mapBoundsInfo));
+                        individualBusInfo.setTimeToArrival(BusInfoUtilities.computeETA());
                         individualBusInfos.add(individualBusInfo);
                     }
                     else
                     {
-                        if (isInViewPort(latest, mapBoundsInfo))
+                        if (BusInfoUtilities.isInViewPort(latest, mapBoundsInfo))
                         {
                             final IndividualBusInfo individualBusInfo = getIndividualBusInfo(latest);
                             individualBusInfo.setApproaching(false);
@@ -131,71 +148,5 @@ public class BusInfoServlet extends HttpServlet
         final Double longitude = busLocationUpdate.getLongitude();
         individualBusInfo.setCoordinate(new Coordinate(latitude, longitude));
         return individualBusInfo;
-    }
-
-    private boolean isApproaching(BusLocationUpdate latest, BusLocationUpdate previous, double stationLat, double stationLong)
-    {
-        double y1 = latest.getLatitude();
-        double x1 = latest.getLongitude();
-        double y2 = previous.getLatitude();
-        double x2 = previous.getLongitude();
-        double ys = stationLat;
-        double xs = stationLong;
-
-        boolean answer;
-
-        if (x1 == x2)
-        {
-            if (y1 > y2)
-            {
-                answer = ys >= y1;
-            }
-            else
-            {
-                answer = ys <= y1;
-            }
-        }
-        else
-        {
-            if (y1 == y2)
-            {
-                if (x1 > x2)
-                {
-                    answer = xs >= x1;
-                }
-                else
-                {
-                    answer = xs <= x1;
-                }
-            }
-            else
-            {
-                double slope = (y1 - y2) / (x1 - x2);
-
-                double normalSlope = -1 / slope;
-
-                double xIntersection = (ys - y1 + slope * x1 - normalSlope * xs) / (slope - normalSlope);
-
-                if (x1 > x2)
-                {
-                    answer = xIntersection >= x1;
-                }
-                else
-                {
-                    answer = xIntersection <= x1;
-                }
-            }
-        }
-
-        return answer;
-    }
-
-    private boolean isInViewPort(BusLocationUpdate latest, MapBoundsInfo mapBoundsInfo)
-    {
-        Coordinate southWest = mapBoundsInfo.getSouthWest();
-        Coordinate northEast = mapBoundsInfo.getNorthEast();
-        Double latitude = latest.getLatitude();
-        Double longitude = latest.getLongitude();
-        return (latitude <= northEast.getLatitude()) && (latitude >= southWest.getLatitude()) && (longitude >= southWest.getLongitude()) && (longitude <= northEast.getLongitude());
     }
 }

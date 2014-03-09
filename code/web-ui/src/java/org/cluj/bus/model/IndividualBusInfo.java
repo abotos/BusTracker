@@ -17,7 +17,7 @@ public class IndividualBusInfo
 
     private Coordinate coordinate;
 
-    // In seconds
+    // In minutes
     private int timeToArrival;
 
     private boolean approaching;
