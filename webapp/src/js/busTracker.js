@@ -36,7 +36,7 @@ function onStationInfoSuccess(data, status, request)
 {
     globalData.stationInfo = data;
 
-    $('#station').text('Station:' + data.displayName);
+    $('#station').text('Station: ' + data.displayName);
 
     var stationCoordinate = data.coordinate;
 
