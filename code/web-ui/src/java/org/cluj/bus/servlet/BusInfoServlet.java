@@ -61,18 +61,20 @@ public class BusInfoServlet extends HttpServlet
             BusInfo busInfo;
             final Bus bus = ((StationBus) stationBus).getBus();
 
-            final Collection<Object> activeTrips = HibernateServiceProvider.getINSTANCE().getReadService().load(Trip.class, "busId", bus.getBusinessId());
-            final Collection<IndividualBusInfo> individualBusInfos = new ArrayList<>();
-            Object busLocationUpdate = null;
             final Session session = HibernateUtil.openSession();
             final Transaction transaction = session.beginTransaction();
+            final SimpleExpression busIdRestriction = Restrictions.eq("busId", bus.getBusinessId());
+            final SimpleExpression isActiveRestriction = Restrictions.eq("isActive", true);
+            final Collection<Object> activeTrips = session.createCriteria(Trip.class).add(busIdRestriction).add(isActiveRestriction).list();
+            final Collection<IndividualBusInfo> individualBusInfos = new ArrayList<>();
+            Object busLocationUpdate = null;
             for (Object activeTrip : activeTrips)
             {
-                final SimpleExpression tripId = Restrictions.eq("id", ((Trip) activeTrip).getId());
+                final SimpleExpression tripIdRestriction = Restrictions.eq("id", ((Trip) activeTrip).getId());
                 final Criterion latitudeRestriction = Restrictions.between("latitude", mapBoundsInfo.getSouthWest().getLatitude(), mapBoundsInfo.getNorthEast().getLatitude());
                 final Criterion longitudeRestriction = Restrictions.between("longitude", mapBoundsInfo.getSouthWest().getLongitude(), mapBoundsInfo.getNorthEast().getLongitude());
                 final Order order = Order.desc("lastUpdate");
-                busLocationUpdate = session.createCriteria(BusLocationUpdate.class).add(tripId).add(latitudeRestriction).add(longitudeRestriction).addOrder(order).list().get(0);
+                busLocationUpdate = session.createCriteria(BusLocationUpdate.class).add(tripIdRestriction).add(latitudeRestriction).add(longitudeRestriction).addOrder(order).list().get(0);
                 final IndividualBusInfo individualBusInfo = new IndividualBusInfo();
                 final Double latitude = ((BusLocationUpdate) busLocationUpdate).getLatitude();
                 final Double longitude = ((BusLocationUpdate) busLocationUpdate).getLongitude();

@@ -104,8 +104,9 @@ public class BotThread extends Thread
     private void endTrip(String tripId) throws IOException
     {
         final TripStatus tripStatus = new TripStatus();
-        tripStatus.setStatus(Status.ENDED);
+        tripStatus.setTripId(tripId);
         tripStatus.setBusId(busId);
+        tripStatus.setStatus(Status.ENDED);
         final CloseableHttpResponse response = getCloseableHttpResponse(TRIP_STATUS_SERVLET_URL, Constants.TRIP_STATUS_PARAMETER_KEY, tripStatus);
         final HttpEntity entity = response.getEntity();
         //TODO: get charset encoding from response!!!

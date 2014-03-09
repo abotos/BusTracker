@@ -30,6 +30,9 @@ public class Trip
     @Column(name = "TRIP_ID", nullable = false)
     private String tripId;
 
+    @Column(name = "IS_ACTIVE")
+    private Boolean isActive;
+
     public Long getId()
     {
         return id;
@@ -58,5 +61,15 @@ public class Trip
     public void setTripId(String tripId)
     {
         this.tripId = tripId;
+    }
+
+    public Boolean getIsActive()
+    {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean isActive)
+    {
+        this.isActive = isActive;
     }
 }

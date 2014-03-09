@@ -62,23 +62,5 @@ public class BusUpdateServlet extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException
     {
-//        Session session = HibernateUtil.openSession();
-//        Transaction transaction = session.beginTransaction();
-//
-//        LOGGER.info("Saving object");
-////
-////        BusLocationUpdate newBusLocation = new BusLocationUpdate();
-////        newBusLocation.setName("Test");
-////
-////        session.saveOrUpdate(newBusLocation);
-//
-//        List<BusLocationUpdate> list = session.createCriteria(BusLocationUpdate.class).list();
-//        for (BusLocationUpdate busLocationUpdate : list)
-//        {
-//            LOGGER.info("BLU: [id=" + busLocationUpdate.getId() + " name=" + busLocationUpdate.getName() + "]");
-//        }
-//
-//        transaction.commit();
-//        session.close();
     }
 }

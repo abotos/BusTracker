@@ -45,6 +45,7 @@ public class TripStatusServlet extends HttpServlet
             trip.setBusId(busId);
             final String tripId = UUID.randomUUID().toString();
             trip.setTripId(tripId);
+            trip.setIsActive(true);
             final IWriteService writeService = HibernateServiceProvider.getINSTANCE().getWriteService();
             writeService.save(trip);
 
@@ -53,7 +54,8 @@ public class TripStatusServlet extends HttpServlet
         else if (Status.ENDED == tripStatus.getStatus())
         {
             //move trip to archive
-
+            final Object loadedTrip = HibernateServiceProvider.getINSTANCE().getReadService().load(Trip.class, tripStatus.getTripId());
+            ((Trip) loadedTrip).setIsActive(false);
             ServletUtils.sendResponse(httpServletResponse, "OK");
         }
         else

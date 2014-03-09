@@ -13,9 +13,21 @@ package org.cluj.bus.pojo;
 
 public class TripStatus
 {
+    private String tripId;
+
     private String busId;
 
     private Status status;
+
+    public String getTripId()
+    {
+        return tripId;
+    }
+
+    public void setTripId(String tripId)
+    {
+        this.tripId = tripId;
+    }
 
     public String getBusId()
     {
