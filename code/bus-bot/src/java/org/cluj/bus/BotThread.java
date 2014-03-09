@@ -98,7 +98,9 @@ public class BotThread extends Thread
         //TODO: get charset encoding from response!!!
         final String jsonReply = IOUtils.toString(entity.getContent(), "utf-8");
         final TripInfo tripInfo = new Gson().fromJson(jsonReply, TripInfo.class);
-        return tripInfo.getTripId();
+        final String tripId = tripInfo.getTripId();
+        LOGGER.info("Started trip " + tripId);
+        return tripId;
     }
 
     private void endTrip(String tripId) throws IOException
@@ -131,6 +133,10 @@ public class BotThread extends Thread
             busLocation.setTripId(tripId);
             busLocation.setCoordinate(wayPointInfo.getCoordinate());
             sendLocationUpdate(busLocation);
+            if (wayPointInfo.isStation())
+            {
+                LOGGER.info("Just passed " + wayPointInfo.getCoordinate());
+            }
             Thread.sleep(getStandardGaussian(SIGMA, MU));
         }
     }
