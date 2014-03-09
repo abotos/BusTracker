@@ -38,6 +38,10 @@ public class BusBot
     {
         LogInitializer.configureLOG4J();
 
+        if (args.length != 3)
+        {
+            throw new IllegalArgumentException("Bus bot must be started with three arguments!");
+        }
         BusBotRunner botRunner = new BusBotRunner(args[0], args[1], getWayPointInfoList(args[2]));
         botRunner.runBot();
     }
@@ -46,7 +50,7 @@ public class BusBot
     {
         final List<String> strings = IOUtils.readLines(new FileReader(fileName));
         final Collection<WayPointInfo> wayPointInfos = new ArrayList<>(strings.size());
-        for(String line : strings)
+        for (String line : strings)
         {
             final StringTokenizer tokenizer = new StringTokenizer(line, ";");
             final String latitudeString = tokenizer.nextToken();
