@@ -78,27 +78,8 @@
         <url-pattern>/busInfo/*</url-pattern>
     </servlet-mapping>
 
-    <!--location to prevent users from listing some resources-->
-    <!--<welcome-file-list>-->
-        <!--<welcome-file>/mockerMain</welcome-file>-->
-    <!--</welcome-file-list>-->
-
     <session-config>
         <session-timeout>60</session-timeout>
     </session-config>
-
-    <!--<listener>-->
-        <!--<listener-class>com.frsglobal.atf.webui.main.TcSessionListener</listener-class>-->
-    <!--</listener>-->
-
-    <!--<mime-mapping>-->
-        <!--<extension>.xls</extension>-->
-        <!--<mime-type>application/vnd.ms-excel</mime-type>-->
-    <!--</mime-mapping>-->
-
-    <!--<mime-mapping>-->
-        <!--<extension>inc</extension>-->
-        <!--<mime-type>text/plain</mime-type>-->
-    <!--</mime-mapping>-->
 
 </web-app>

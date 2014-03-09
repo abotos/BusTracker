@@ -31,9 +31,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class BusInfoServlet extends HttpServlet
 {
@@ -67,7 +65,7 @@ public class BusInfoServlet extends HttpServlet
             final SimpleExpression busIdRestriction = Restrictions.eq("busId", bus.getBusinessId());
             final SimpleExpression isActiveRestriction = Restrictions.eq("isActive", true);
             final Collection<Object> activeTrips = session.createCriteria(Trip.class).add(busIdRestriction).add(isActiveRestriction).list();
-            final Collection<IndividualBusInfo> individualBusInfos = new ArrayList<>();
+            final List<IndividualBusInfo> individualBusInfos = new ArrayList<>();
 
             for (Object activeTrip : activeTrips)
             {
@@ -127,8 +125,22 @@ public class BusInfoServlet extends HttpServlet
             transaction.commit();
             session.close();
 
-            if(individualBusInfos.size() > 0)
+            if (individualBusInfos.size() > 0)
             {
+                //ascending order the list based on the estimated time to arrive
+                Collections.sort(individualBusInfos, new Comparator<IndividualBusInfo>()
+                {
+                    @Override
+                    public int compare(IndividualBusInfo o1, IndividualBusInfo o2)
+                    {
+                        if (o1.getTimeToArrival() == -1 || o2.getTimeToArrival() == -1)
+                        {
+                            // put the buses with no time to arrive at the bottom of the list
+                            return 1;
+                        }
+                        return o1.getTimeToArrival() - o2.getTimeToArrival();
+                    }
+                });
                 busInfo = new BusInfo();
                 busInfo.setBusName(bus.getName());
                 busInfo.setBusId(bus.getBusinessId());
