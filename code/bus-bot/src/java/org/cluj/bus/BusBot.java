@@ -27,14 +27,18 @@ import java.util.StringTokenizer;
  */
 public class BusBot
 {
-    // the first parameter has to be the bus id
-    // the second parameter is a file with the coordinate points
+    /**
+     * @param args the first parameter is the server host name or ip address
+     *             the second parameter has to be the bus id
+     *             the third parameter is a file with the coordinate points
+     * @throws InterruptedException
+     * @throws IOException
+     */
     public static void main(String[] args) throws InterruptedException, IOException
     {
         LogInitializer.configureLOG4J();
 
-
-        BusBotRunner botRunner = new BusBotRunner(args[0], getWayPointInfoList(args[1]));
+        BusBotRunner botRunner = new BusBotRunner(args[0], args[1], getWayPointInfoList(args[2]));
         botRunner.runBot();
     }
 
@@ -44,7 +48,7 @@ public class BusBot
         final Collection<WayPointInfo> wayPointInfos = new ArrayList<>(strings.size());
         for(String line : strings)
         {
-            StringTokenizer tokenizer = new StringTokenizer(line, ";");
+            final StringTokenizer tokenizer = new StringTokenizer(line, ";");
             final String latitudeString = tokenizer.nextToken();
             final String longitudeString = tokenizer.nextToken();
             final String isStationString = tokenizer.nextToken();

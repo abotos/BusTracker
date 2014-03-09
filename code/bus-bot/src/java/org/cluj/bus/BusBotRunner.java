@@ -20,11 +20,13 @@ public class BusBotRunner
 {
     private static final Logger LOGGER = Logger.getLogger(BusBotRunner.class);
 
+    private final String host;
     private final String busId;
     private final Collection<WayPointInfo> coordinates;
 
-    public BusBotRunner(String busId, Collection<WayPointInfo> coordinates)
+    public BusBotRunner(String host, String busId, Collection<WayPointInfo> coordinates)
     {
+        this.host = host;
         this.busId = busId;
         this.coordinates = coordinates;
     }
@@ -32,7 +34,7 @@ public class BusBotRunner
     public void runBot()
     {
         // TODO Log some stuff here
-        BotThread botThread = new BotThread(busId, coordinates);
+        BotThread botThread = new BotThread(host, busId, coordinates);
 
         botThread.start();
 
