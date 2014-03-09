@@ -67,28 +67,50 @@ public class BusInfoServlet extends HttpServlet
             final SimpleExpression isActiveRestriction = Restrictions.eq("isActive", true);
             final Collection<Object> activeTrips = session.createCriteria(Trip.class).add(busIdRestriction).add(isActiveRestriction).list();
             final Collection<IndividualBusInfo> individualBusInfos = new ArrayList<>();
-            Object busLocationUpdate = null;
+
             for (Object activeTrip : activeTrips)
             {
                 final Criterion tripIdRestriction = Restrictions.eq("trip", activeTrip);
-                final Criterion latitudeRestriction = Restrictions.between("latitude", mapBoundsInfo.getSouthWest().getLatitude(), mapBoundsInfo.getNorthEast().getLatitude());
-                final Criterion longitudeRestriction = Restrictions.between("longitude", mapBoundsInfo.getSouthWest().getLongitude(), mapBoundsInfo.getNorthEast().getLongitude());
                 final Order order = Order.desc("lastUpdate");
-                List<BusLocationUpdate> busLocationUpdateList = session.createCriteria(BusLocationUpdate.class).add(tripIdRestriction).add(latitudeRestriction).add(longitudeRestriction).addOrder(order).list();
+                List<BusLocationUpdate> busLocationUpdateList = session.createCriteria(BusLocationUpdate.class).add(tripIdRestriction).addOrder(order).list();
 
-                if (busLocationUpdateList.size() > 0)
+                int busLocationUpdateSize = busLocationUpdateList.size();
+                if (busLocationUpdateSize > 0)
                 {
-                    busLocationUpdate = busLocationUpdateList.get(0);
-                    final IndividualBusInfo individualBusInfo = new IndividualBusInfo();
-                    final Double latitude = ((BusLocationUpdate) busLocationUpdate).getLatitude();
-                    final Double longitude = ((BusLocationUpdate) busLocationUpdate).getLongitude();
-                    individualBusInfo.setCoordinate(new Coordinate(latitude, longitude));
-                    individualBusInfos.add(individualBusInfo);
+                    BusLocationUpdate latest = busLocationUpdateList.get(0);
+
+                    boolean isApproaching = false;
+                    if (busLocationUpdateSize == 1)
+                    {
+                        isApproaching = true;
+                    }
+                    else if (busLocationUpdateSize >= 2)
+                    {
+                        isApproaching = isApproaching(latest, busLocationUpdateList.get(1), station.getLatitude(), station.getLongitude());
+                    }
+
+                    if (isApproaching)
+                    {
+                        final IndividualBusInfo individualBusInfo = getIndividualBusInfo(latest);
+                        individualBusInfo.setApproaching(true);
+                        individualBusInfo.setInViewPort(isInViewPort(latest, mapBoundsInfo));
+                        individualBusInfos.add(individualBusInfo);
+                    }
+                    else
+                    {
+                        if (isInViewPort(latest, mapBoundsInfo))
+                        {
+                            final IndividualBusInfo individualBusInfo = getIndividualBusInfo(latest);
+                            individualBusInfo.setApproaching(false);
+                            individualBusInfos.add(individualBusInfo);
+                        }
+                    }
                 }
             }
             transaction.commit();
             session.close();
-            if(busLocationUpdate != null)
+
+            if(individualBusInfos.size() > 0)
             {
                 busInfo = new BusInfo();
                 busInfo.setBusName(bus.getName());
@@ -100,5 +122,80 @@ public class BusInfoServlet extends HttpServlet
         }
 
         return new Gson().toJson(busInfos);
+    }
+
+    private IndividualBusInfo getIndividualBusInfo(BusLocationUpdate busLocationUpdate)
+    {
+        final IndividualBusInfo individualBusInfo = new IndividualBusInfo();
+        final Double latitude = busLocationUpdate.getLatitude();
+        final Double longitude = busLocationUpdate.getLongitude();
+        individualBusInfo.setCoordinate(new Coordinate(latitude, longitude));
+        return individualBusInfo;
+    }
+
+    private boolean isApproaching(BusLocationUpdate latest, BusLocationUpdate previous, double stationLat, double stationLong)
+    {
+        double y1 = latest.getLatitude();
+        double x1 = latest.getLongitude();
+        double y2 = previous.getLatitude();
+        double x2 = previous.getLongitude();
+        double ys = stationLat;
+        double xs = stationLong;
+
+        boolean answer;
+
+        if (x1 == x2)
+        {
+            if (y1 > y2)
+            {
+                answer = ys >= y1;
+            }
+            else
+            {
+                answer = ys <= y1;
+            }
+        }
+        else
+        {
+            if (y1 == y2)
+            {
+                if (x1 > x2)
+                {
+                    answer = xs >= x1;
+                }
+                else
+                {
+                    answer = xs <= x1;
+                }
+            }
+            else
+            {
+                double slope = (y1 - y2) / (x1 - x2);
+
+                double normalSlope = -1 / slope;
+
+                double xIntersection = (ys - y1 + slope * x1 - normalSlope * xs) / (slope - normalSlope);
+
+                if (x1 > x2)
+                {
+                    answer = xIntersection >= x1;
+                }
+                else
+                {
+                    answer = xIntersection <= x1;
+                }
+            }
+        }
+
+        return answer;
+    }
+
+    private boolean isInViewPort(BusLocationUpdate latest, MapBoundsInfo mapBoundsInfo)
+    {
+        Coordinate southWest = mapBoundsInfo.getSouthWest();
+        Coordinate northEast = mapBoundsInfo.getNorthEast();
+        Double latitude = latest.getLatitude();
+        Double longitude = latest.getLongitude();
+        return (latitude <= northEast.getLatitude()) && (latitude >= southWest.getLatitude()) && (longitude >= southWest.getLongitude()) && (longitude <= northEast.getLongitude());
     }
 }

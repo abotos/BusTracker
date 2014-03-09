@@ -20,6 +20,10 @@ public class IndividualBusInfo
     // In seconds
     private int timeToArrival;
 
+    private boolean approaching;
+
+    private boolean inViewPort;
+
     public Coordinate getCoordinate()
     {
         return coordinate;
@@ -38,5 +42,25 @@ public class IndividualBusInfo
     public void setTimeToArrival(int timeToArrival)
     {
         this.timeToArrival = timeToArrival;
+    }
+
+    public boolean isApproaching()
+    {
+        return approaching;
+    }
+
+    public void setApproaching(boolean approaching)
+    {
+        this.approaching = approaching;
+    }
+
+    public boolean isInViewPort()
+    {
+        return inViewPort;
+    }
+
+    public void setInViewPort(boolean inViewPort)
+    {
+        this.inViewPort = inViewPort;
     }
 }

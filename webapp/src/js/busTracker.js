@@ -129,9 +129,12 @@ function onBusInfoSuccess(data, status, request)
             globalData.currentMarkers.push(individualMarker);
 
             individualMarker.setMap(globalData.map);
-        });
 
-        $('#buses').append('<tr><td><img src="' + busDisplayImage + '"></td><td>' + value.busName + '</td><td>? minutes</td></tr>');
+            if (individualValue.approaching)
+            {
+                $('#buses').append('<tr><td><img src="' + busDisplayImage + '"></td><td>' + value.busName + '</td><td>? minutes</td><td>' + (individualValue.inViewPort ? '' : 'Zoom out for location on map') + '</td></tr>');
+            }
+        });
     });
 }
 
